@@ -1,0 +1,75 @@
+.tf-imagebox {
+    border-radius: 16px;
+    padding: 30px 30px 29px 30px;
+    background: var(--theme-primary-color);
+    display: flex;
+    align-items: center;
+    column-gap: 30px;
+    row-gap: 20px;
+}
+
+.tf-imagebox .title {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.tf-imagebox .wrap-image {
+    width: 210px;
+    flex-shrink: 0;
+}
+
+.tf-imagebox .wrap-image img {
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+
+.tf-imagebox:hover .wrap-image img {
+    transform: scale(1.03);
+}
+
+.tf-imagebox .description {
+    font-family: 'Inter';
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #fff;
+}
+
+.tf-imagebox .tf-button-container {
+    margin-top: 20px;
+}
+
+.tf-imagebox .tf-button-container a {
+    border: 1px solid var(--theme-primary-color);
+    color: var(--theme-primary-color);
+    background: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20.16px;
+    padding: 15px 54px;
+    border-radius: 14px;
+    display: inline-block;
+}
+
+.tf-imagebox .tf-button-container a:hover {
+    background: #24272C;
+    color: #fff;
+}
+
+.tf-imagebox .tf-button-container a i {
+    margin-left: 7px;
+    font-size: 19px;
+    vertical-align: bottom;
+}
+
+@media only screen and (max-width: 767px) {
+    .tf-imagebox {
+        flex-direction: column;
+    }
+    .tf-imagebox .content {
+        text-align: center;
+    }
+}

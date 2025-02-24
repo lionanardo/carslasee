@@ -1,0 +1,303 @@
+.compare-listing  {
+    position: fixed;
+    right: 0;
+    left: 0;
+    width: 100%;
+    max-width: 1292px;
+    margin: 0 auto;
+    bottom: 0;
+    z-index: 9999;
+    transform: translateY(100%);
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+
+.compare-listing.listing-open {
+    bottom: 20px;
+    transform: translateY(0%);
+}
+
+.compare-listing.listing-open i {
+    transform: rotate(0deg);
+}
+
+.tfcl-listing-btn {
+    position: absolute;
+    top: -21px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0;
+    border-radius: 16px 16px 0 0;
+    height: 22px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tfcl-listing-btn i {
+    font-size: 18px;
+    transform: rotate(180deg);
+}
+
+.compare-listing-header {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #efefef;
+}
+
+.compare-listing-header .title {
+    margin: 0;
+    line-height: 1;
+}
+
+.compare-listing-body {
+    box-shadow: 0px 30px 60px 0px #00000033;
+    border: 1px solid #EDEDED;
+    border-radius: 24px;
+    padding: 14px 16px 16px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+}
+
+.compare-thumb-main {
+    margin-left: 0;
+    margin-right: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.compare-listing-body .tfcl-compare-listing-button {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22.4px;
+    padding: 14px 86px;    
+}
+
+.compare-thumb-main .tfcl-listing-title {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22.68px;
+    margin-bottom: 8px;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+.compare-thumb-main .description {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    flex-wrap: wrap;
+}
+
+.compare-thumb-main .description li {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19.6px;
+    color: #696665;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.compare-thumb-main .description li.mileage::before {
+    content: '\e940';
+    font-family: 'autodeal';
+    font-size: 15px;
+}
+
+.compare-thumb-main .description li.fuel::before {
+    content: '\e942';
+    font-family: 'autodeal';
+    font-size: 15px;
+}
+
+.compare-thumb-main .description li.trans::before {
+    content: '\e946';
+    font-family: 'autodeal';
+    font-size: 15px;
+}
+
+.compare-thumb-main .compare-thumb {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.compare-thumb-main .compare-thumb .compare-listing-img {
+    height: 79px;
+    object-fit: cover;
+    border-radius: 12px;
+    width: 106px;
+    margin-right: 21px;
+    flex-shrink: 0;
+}
+
+.compare-listing-body .tfcl-compare-properties-button{
+    width: 105px;
+    padding: 10px;
+}
+.compare-thumb-main .thumb-inner-empty {
+    height: 56px;
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+    border: 2px dashed #eeeeee;
+}
+
+.compare-thumb-main .compare-listing-remove {
+    border: 1px solid #EDEDED;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #24272C;
+    font-size: 11px;
+    padding: 0;
+    background: #fff;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.compare-thumb-main .compare-listing-remove:hover {
+    color: #fff;
+    background: var(--theme-primary-color);
+    border-color: var(--theme-primary-color);
+}
+
+.compare-listing-hidden {
+    display: none;
+}
+
+
+/* compare table  */
+
+.wrap-compare-listing-item {
+    display: flex;
+    align-items: center;
+    margin-left: -30px;
+}
+
+.wrap-compare-listing-item > * {
+    width: calc(33.33333% - 30px);
+    margin-left: 30px;
+}
+
+.wrap-compare-listing-item .list-controller,
+.wrap-compare-listing-item .bottom-content,
+.wrap-compare-listing-item .infor-description.description {
+    display: none !important;
+}
+
+.wrap-compare-listing-item .tfcl-listing-card .featured-property img {
+    height: 308px;
+}
+
+.wrap-compare-listing-item .tfcl-listing-card .price {
+    margin-bottom: 0px;
+}
+
+.wrap-compare-listing-item .tfcl-listing-card .content {
+    padding-bottom: 16px;
+}
+
+.tfcl-compare-table .compare-tables {
+    border-collapse: separate;
+    border-spacing: 0px 20px;
+}
+
+.tfcl-compare-table tr {
+    outline: 1px solid #EDEDED;
+    border-radius: 10px;
+}
+
+.tfcl-compare-table .desc-tr {
+    outline: unset;
+    border-radius: unset;
+    box-shadow: 0 11px 0 #F8F8F9;
+    border-radius: 10px;
+}
+
+.tfcl-compare-table td {
+border: none;
+border-radius: 16px;
+font-family: 'Inter';
+font-size: 14px;
+font-weight: 400;
+line-height: 19.6px;
+color: #24272C;
+padding: 18px 10px 21px 10px;
+text-align: center;
+}
+
+.tfcl-compare-table.table-overview {
+    border: 1px solid #EDEDED;
+    border-radius: 16px;
+    padding: 30px 30px 10px 30px;
+}
+
+.tfcl-compare-table h2 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30.24px;
+    margin-bottom: -16px;
+}
+
+.tfcl-compare-table .title-desc {
+    width: 100%;
+    background: #F8F8F9;
+    border: none !important;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22.4px;
+    color: #24272C;
+    border-radius: 10px;
+    padding: 10px;
+    padding-bottom: 0;
+    padding-top: 10px;
+}
+
+@media only screen and (max-width: 1300px) {
+    .compare-listing {
+        padding-left: 15px;
+        padding-right: 15px;
+        max-width: 100%;
+    }
+    .compare-listing-body .tfcl-compare-listing-button {
+        padding: 14px 25px;
+    }
+    .compare-thumb-main { 
+        flex-wrap: wrap;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .content-table-compare {
+        overflow-x: scroll !important;
+    }
+    .content-table-compare .inner {
+        width: 200%;
+    }
+
+}
+
+@media only screen and (max-width: 767px) {
+    .compare-listing-body {
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+}

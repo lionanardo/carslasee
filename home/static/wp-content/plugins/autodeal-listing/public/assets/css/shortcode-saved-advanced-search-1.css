@@ -1,0 +1,18 @@
+#tfcl_my_saved_advanced_search th,
+#tfcl_my_saved_advanced_search td {
+    text-align: left;
+}
+.tfcl-table-listing .table-responsive.tfcl_my_saved_advanced_search_shortcode {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#tfcl_my_saved_advanced_search .tfcl-saved-advanced-search-remove i{
+    color: red;
+}
+
+.tfcl-saved-advanced-search-link-view i {
+    color: rgb(6, 84, 201);
+    margin-right: 8px;
+}

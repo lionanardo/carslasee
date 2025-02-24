@@ -1,0 +1,92 @@
+.tf-accordion .accordion-title.icon_after .accordion-icon {
+    float: right;
+}
+
+.tf-accordion .accordion-title {
+    cursor: pointer;
+    display: flex;
+      display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    align-items: center;
+    overflow: hidden;
+    justify-content: space-between;
+}
+
+.tf-accordion .tf-accordion-item {
+    padding: 24px 30px 24px 30px;
+    border: 1px solid #EDEDED;
+    border-radius: 16px;
+    margin-bottom: 10px;
+}
+
+.accordion-icon-open,
+.tf-accordion-item.active .accordion-icon-close {
+	display: none;
+}
+
+.accordion-icon-close,
+.tf-accordion-item.active .accordion-icon-open {
+	display: block;
+}
+
+.tf-accordion-item.active .accordion-icon-open,
+.tf-accordion .tf-accordion-item.active .accordion-icon,
+.tf-accordion .tf-accordion-item.active .title-text {
+    color: var(--theme-primary-color);
+}
+
+.tf-accordion .accordion-title > span.wrap-accordion-icon {
+    display: flex;
+      display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.accordion-title,
+.tf-accordion .tf-accordion-item,
+.tf-accordion .tf-accordion-item .title-text,
+.wrap-accordion-icon {
+	-webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;  
+}
+.tf-accordion .tf-accordion-item { 
+    overflow: hidden;
+}
+.tf-accordion .tf-accordion-item .title-text {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22.68px;
+    color: #24272C;    
+}
+
+.tf-accordion .tf-accordion-item .accordion-icon {
+    color: #24272C;
+    font-size: 20px;
+}
+
+.tf-accordion .accordion-content {
+    font-family: 'Inter';
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #24272C;
+    margin-top: 19px;
+}
+
+.tf-accordion .tf-accordion-item.active {
+    border-color: transparent;
+    background: var(--theme-primary-rgba);
+    padding: 25px 30px 24px 30px;
+}
+
+@media only screen and (max-width: 767px) {
+    .tf-accordion .tf-accordion-item .title-text {
+        padding-right: 20px;
+    }
+}

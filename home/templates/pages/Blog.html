@@ -1,0 +1,386 @@
+{% load static %}
+{% include 'pages/top.html' %}
+ <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const header = document.getElementById("header");
+
+    if (header) {
+        const checkScrollPosition = () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const pageHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / pageHeight) * 100;
+
+            if (scrollPercentage <= 2) {
+                // Add black background with !important
+                header.style.setProperty("background-color", "black", "important");
+            } else {
+                // Remove black background
+                header.style.removeProperty("background-color");
+            }
+        };
+
+        // Initial check
+        checkScrollPosition();
+
+        // Listen to scroll events
+        window.addEventListener("scroll", checkScrollPosition);
+    } else {
+        console.warn("Element with id 'header' not found.");
+    }
+});
+
+</script>
+    <style>
+         body {
+            background-color: #f7f9fc; /* Light background color */
+        }
+
+        .content-container {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px; /* Limit container width */
+            margin: auto; /* Center container */
+            background-color: white; /* White background for content */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        .image-wrapper {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .image-wrapper img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .feature-section {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 20px;
+            padding: 10px; /* Add padding for spacing */
+            border: 1px solid #e0e0e0; /* Light border for options */
+            border-radius: 5px; /* Rounded corners for options */
+            background-color: #f2d0b5; /* Light blue background for options */
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            margin-right: 15px;
+            color: #9e3d32; /* Blue color for icons */
+        }
+
+        .feature-title {
+            margin: 0;
+            font-size: 1.25em;
+            color: #9e3b29; /* Darker blue for headings */
+        }
+
+        .feature-description {
+            margin-top: 5px;
+            color: #555; /* Dark gray for paragraph text */
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #555;
+            margin-top: 30px;
+            font-size: 1.5em;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        strong {
+            color: #333;
+        }
+
+        .related-posts {
+            margin-top: 30px; /* Space above the related posts */
+            padding: 20px; /* Padding around related posts */
+            border-radius: 10px; /* Rounded corners */
+            background-color: ##ffa483; /* Light bluish background */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        .related-posts h2 {
+            margin-top: 0; /* Remove margin for the heading */
+            color: #9e3b29; /* Darker blue for related posts heading */
+        }
+
+        .blog-container {
+            display: flex;
+            margin: 15px 0;
+            border: 1px solid #e0e0e0; /* Light border for blog containers */
+            border-radius: 8px; /* Rounded corners */
+            background-color: white; /* White background for blog containers */
+            overflow: hidden; /* Clip any overflowing content */
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            transition: transform 0.3s; /* Transition for hover effect */
+        }
+
+        .blog-container:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+        }
+
+        .blog-image {
+            width: 30%; /* Adjust width of image container */
+            overflow: hidden; /* Clip overflowing image */
+        }
+
+        .blog-image img {
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.3s; /* Transition for image hover effect */
+        }
+
+        .blog-image:hover img {
+            transform: scale(1.05); /* Zoom effect on image hover */
+        }
+
+        .blog-content {
+            padding: 15px; /* Padding around blog content */
+            width: 70%; /* Adjust width of content container */
+        }
+
+        .blog-content a {
+            color: #9e3d32; /* Blue color for links */
+            font-weight: bold; /* Bold links */
+            text-decoration: none; /* Remove underline */
+            transition: color 0.3s; /* Transition for hover effect */
+        }
+
+        .blog-content a:hover {
+            color: #9e3b29; /* Darker blue on hover */
+            text-decoration: underline;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .blog-container {
+                flex-direction: column; /* Stack image and content on smaller screens */
+            }
+
+            .blog-image {
+                width: 100%; /* Full width for image on mobile */
+            }
+
+            .blog-content {
+                width: 100%; /* Full width for content on mobile */
+            }
+        }
+        /* General Page Styles */
+        .content-container {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        /* Styles for Related Posts Section */
+        .related-posts-container {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: ##ffa483;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .post {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .post:hover {
+            transform: translateY(-5px);
+        }
+
+        .top-image {
+            position: relative;
+        }
+
+        .entry-thumb img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s;
+        }
+
+        .entry-thumb:hover img {
+            transform: scale(1.05);
+        }
+
+        .list-categories {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(158, 61, 50, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .categories-name {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .col-content {
+            padding: 15px;
+        }
+
+        .top-detail-info {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .entry-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .entry-title a {
+            color: #9e3d32;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .entry-title a:hover {
+            color: #9e3b29;
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+        .aas{
+            padding-top:20%;
+        }
+        }
+    </style>
+
+
+<div class="aas"></div>
+        <!-- Main Content Continues -->
+<div class="content-container" style="padding-top:7%">
+        <h1>Driving Satisfaction: Why Every Day Auto Sales is a Customer Favorite</h1>
+        <figure class="image-wrapper">
+            <img src="{% static 'Blog.png' %}" alt="Every Day Auto Sales" loading="lazy">
+        </figure>
+        <p>
+            At Every Day Auto Sales, located at <strong>1525 Central Ave, Billings, MT 59102</strong>, our mission goes beyond just selling cars—we’re committed to delivering long-lasting satisfaction to each and every customer. For the past 8 years, we’ve been redefining the car-buying experience, and our customers couldn’t be happier with the results.
+        </p>
+        <h2>What Makes Every Day Auto Sales Unique?</h2>
+        <p>
+            It’s simple: our customers are our top priority, and we strive to go above and beyond to ensure their complete satisfaction. From our extensive selection of high-quality pre-owned vehicles to our exceptional customer service, we aim to exceed expectations at every stage of the process.
+        </p>
+        <h2>Why Our Customers Keep Coming Back</h2>
+        <div class="feature-section">
+            <i class="feature-icon fas fa-check-circle"></i>
+            <div>
+                <h3 class="feature-title">Quality Assurance</h3>
+                <p class="feature-description">Every vehicle on our lot undergoes rigorous inspections to meet our high standards of quality and reliability. Whether you’re searching for a sleek sedan, a spacious SUV, or a powerful truck, you can trust that we offer only the best.</p>
+            </div>
+        </div>
+        <div class="feature-section">
+            <i class="feature-icon fas fa-smile"></i>
+            <div>
+                <h3 class="feature-title">Exceptional Customer Experience</h3>
+                <p class="feature-description">From the moment you step onto our lot, you’ll be greeted by a friendly and knowledgeable team ready to assist you. Our sales staff is here to help you find the perfect vehicle that suits your needs and budget—without any pressure.</p>
+            </div>
+        </div>
+        <div class="feature-section">
+            <i class="feature-icon fas fa-handshake"></i>
+            <div>
+                <h3 class="feature-title">Flexible Financing Options</h3>
+                <p class="feature-description">Once you’ve chosen your ideal car, our finance team will work closely with you to secure the best financing solutions, regardless of your credit history. We believe that everyone deserves access to dependable transportation, and we offer a range of financing options to make that a reality.</p>
+            </div>
+        </div>
+        <h2>A Reputation Built on Trust</h2>
+        <p>
+            But don’t just take our word for it—our customers consistently rave about the quality and dependability of our vehicles, along with the transparency and honesty that we bring to every transaction. Their positive feedback is a testament to our commitment to creating a smooth, hassle-free car-buying experience.
+        </p>
+        <p>
+            At Every Day Auto Sales, we’re more than just a dealership—we’re your trusted partner in finding the perfect vehicle. Stop by today to experience the Every Day Auto Sales difference. With our wide selection, superior service, and dedication to excellence, we’re confident that you’ll leave just as satisfied as our loyal customers.
+        </p>
+        <!-- Related Posts Section -->
+        <div class="related-posts-container">
+            <h2>Related Posts</h2>
+            <div class="post-grid">
+                <article class="post">
+                    <div class="top-image">
+                        <div class="list-categories"><a href="#" class="categories-name">Articles</a></div>
+                        <figure class="entry-thumb">
+                            <a href="{% url 'blog_1' %}">
+                                <div class="image-wrapper">
+                                    <img src="{% static 'blog_1.jpg' %}" alt="Choosing the Best Pre-Owned Car">
+                                </div>
+                            </a>
+                        </figure>
+                    </div>
+                    <div class="col-content">
+                        <div class="top-detail-info clearfix">
+
+                            <span class="date">July 13, 2020</span>
+                        </div>
+                        <h4 class="entry-title">
+                            <a href="{% url 'blog_1' %}">Where Quality Cars and Customer Satisfaction Meet</a>
+                        </h4>
+                    </div>
+                </article>
+
+                <article class="post">
+                    <div class="top-image">
+                        <div class="list-categories"><a href="#" class="categories-name">Articles</a></div>
+                        <figure class="entry-thumb">
+                            <a href="{% url 'blog_2' %}">
+                                <div class="image-wrapper">
+                                    <img src="{% static 'used-car-transport.jpg' %}" alt="Benefits of Buying a Used Car">
+                                </div>
+                            </a>
+                        </figure>
+                    </div>
+                    <div class="col-content">
+                        <div class="top-detail-info clearfix">
+
+                            <span class="date">August 5, 2020</span>
+                        </div>
+                        <h4 class="entry-title">
+                            <a href="{% url 'blog_2' %}">Every Day Auto Sales Recognized for Trust and Superior Service</a>
+                        </h4>
+                    </div>
+                </article>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'pages/footer.html' %}

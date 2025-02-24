@@ -1,0 +1,390 @@
+{% load static %}
+ {% include 'pages/top.html' %}
+ <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const header = document.getElementById("header");
+
+    if (header) {
+        const checkScrollPosition = () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const pageHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / pageHeight) * 100;
+
+            if (scrollPercentage <= 2) {
+                // Add black background with !important
+                header.style.setProperty("background-color", "black", "important");
+            } else {
+                // Remove black background
+                header.style.removeProperty("background-color");
+            }
+        };
+
+        // Initial check
+        checkScrollPosition();
+
+        // Listen to scroll events
+        window.addEventListener("scroll", checkScrollPosition);
+    } else {
+        console.warn("Element with id 'header' not found.");
+    }
+});
+
+</script>
+ <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<!-- custom css.css link -->
+     <style>
+        /* Basic Reset and Box Sizing */
+
+
+        /* Body Styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+
+            background-color: #f4faff;
+            color: #333;
+        }
+
+        /* Container */
+
+
+        /* About Us Section */
+        .about-section {
+            padding: 60px 0;
+            background-color: #ffffff;
+        }
+
+        .about-section h2 {
+            text-align: center;
+            color: #9e3b28;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .about-content img {
+            flex: 1 1 400px;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .about-text {
+            flex: 1 1 400px;
+        }
+
+        .about-text p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-section {
+            padding: 60px 0;
+            background-color: #f9fbfd;
+        }
+
+        .why-choose-section h2 {
+            text-align: center;
+            color: #9e3b2a;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        .why-choose {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .why-choose-item {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            width: 250px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .why-choose-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .why-choose-item i {
+            font-size: 3em;
+            color: #9e3b28;
+            margin-bottom: 20px;
+        }
+
+        .why-choose-item h3 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.5em;
+            color: #9e3b28;
+            margin-bottom: 10px;
+        }
+
+        .why-choose-item p {
+            color: #555;
+            font-size: 1em;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 60px 0;
+            background-color: #f9fbfd;
+        }
+
+        .team-section h2 {
+            text-align: center;
+            color: #9e3b2a;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        .team {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .team-member {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 250px;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .team-member img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .team-member h3 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.4em;
+            color: #9e3b28;
+            margin-bottom: 5px;
+        }
+
+        .team-member p {
+            color: #777;
+            font-size: 1em;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            padding: 60px 0;
+            background-color: #f1d0b5;
+        }
+
+        .reviews-section h2 {
+            text-align: center;
+            color: #9e3b28;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        .reviews {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .review {
+            background-color: #fff;
+            border-left: 5px solid #9e3b28;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 350px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .review:hover {
+            transform: translateY(-5px);
+        }
+
+        .review p {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .review span {
+            display: block;
+            text-align: right;
+            font-weight: bold;
+            color: #9e3b28;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .about-content, .why-choose, .team, .reviews {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .about-content img, .about-text, .why-choose-item, .team-member, .review {
+                flex: 1 1 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .about-section h2,
+            .why-choose-section h2,
+            .team-section h2,
+            .reviews-section h2 {
+                font-size: 2em;
+            }
+
+            .about-content, .why-choose, .team, .reviews {
+                padding: 0 10px;
+            }
+
+            .team-member, .why-choose-item, .review {
+                width: 100%;
+            }
+        }
+    </style>
+
+<div style="padding-top:50px"></div>
+  <section class="about-section">
+        <div class="container">
+            <h2>Our Story</h2>
+            <div class="about-content">
+                <img src="{% static 'backg.jpg' %}" alt="About Us Image" width="600" height="400">
+                <div class="about-text">
+                    <p>Welcome to Every Day Auto Sales, your trusted destination for quality pre-owned vehicles in Billings, MT. With a reputation for excellence and a commitment to customer satisfaction, we’re proud to serve our community from 1525 Central Ave, Billings, MT 59102.</p>
+
+<p>At Every Day Auto Sales, we aim to make your car-buying experience as smooth and enjoyable as possible. Visit us today to explore our carefully selected inventory and discover why we’re a top choice for pre-owned vehicles in East Moline!</p>
+
+
+              </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+   <section class="why-choose-section">
+        <div class="container">
+            <h2>Why Choose Us</h2>
+            <div class="why-choose">
+                <div class="why-choose-item">
+                    <i class="bi bi-gear"></i>
+                    <h3>Expertise</h3>
+                    <p>Our team possesses extensive knowledge and skills to handle diverse projects effectively.</p>
+                </div>
+                <div class="why-choose-item">
+                    <i class="bi bi-award"></i>
+                    <h3>Quality</h3>
+                    <p>We maintain the highest standards to ensure exceptional quality in all our deliverables.</p>
+                </div>
+                <div class="why-choose-item">
+                    <i class="bi bi-clock"></i>
+                    <h3>Timely Delivery</h3>
+                    <p>We respect your time by delivering projects within agreed timelines without compromising quality.</p>
+                </div>
+                <div class="why-choose-item">
+                    <i class="bi bi-headset"></i>
+                    <h3>Support</h3>
+                    <p>Our dedicated support team is always available to assist you with any queries or issues.</p>
+                </div>
+                <div class="why-choose-item">
+                    <i class="bi bi-people"></i>
+                    <h3>Customer Focused</h3>
+                    <p>We prioritize our clients' needs and work closely with them to achieve their goals.</p>
+                </div>
+                <div class="why-choose-item">
+                    <i class="bi bi-shield-lock"></i>
+                    <h3>Secure</h3>
+                    <p>We implement robust security measures to protect your data and ensure confidentiality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2>Meet Our Team</h2>
+            <div class="team">
+                <div class="team-member">
+                    <img src="{% static '111.png' %}" alt="John Doe">
+                    <h3>Russel Davis</h3>
+                    <p>Sales Manager</p>
+                </div>
+                <div class="team-member">
+                    <img src="{% static '222.png' %}" alt="Jane Smith">
+                    <h3>Edward Lind</h3>
+                    <p>Sales</p>
+                </div>
+                <div class="team-member">
+                    <img src="{% static '333.png' %}" alt="Michael Brown">
+                    <h3>Lucas Thompson</h3>
+                    <p>Finance</p>
+                </div>
+                <div class="team-member">
+                    <img src="{% static '444.png' %}" alt="Emily Davis">
+                    <h3>Bradley Kennedy</h3>
+                    <p>Vice President</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <div class="container">
+            <h2>What Our Clients Say</h2>
+            <div class="reviews">
+                <div class="review">
+                    <p>"Their expertise transformed our business. Exceptional service and support!"</p>
+                    <span>- Sarah Johnson</span>
+                </div>
+                <div class="review">
+                    <p>"A reliable partner with innovative solutions. Highly recommended."</p>
+                    <span>- Michael Brown</span>
+                </div>
+                <div class="review">
+                    <p>"Professional team that delivers on promises. Outstanding quality."</p>
+                    <span>- Emily Davis</span>
+                </div>
+                <div class="review">
+                    <p>"Their dedication and attention to detail are unmatched. Fantastic experience."</p>
+                    <span>- Matthew Wilson</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% include 'pages/footer.html' %}

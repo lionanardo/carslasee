@@ -1,0 +1,228 @@
+{% load static %}
+ {% include 'pages/top.html' %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const header = document.getElementById("header");
+
+    if (header) {
+        const checkScrollPosition = () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const pageHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / pageHeight) * 100;
+
+            if (scrollPercentage <= 2) {
+                // Add black background with !important
+                header.style.setProperty("background-color", "black", "important");
+            } else {
+                // Remove black background
+                header.style.removeProperty("background-color");
+            }
+        };
+
+        // Initial check
+        checkScrollPosition();
+
+        // Listen to scroll events
+        window.addEventListener("scroll", checkScrollPosition);
+    } else {
+        console.warn("Element with id 'header' not found.");
+    }
+});
+
+</script>
+<style>
+       h1 {
+            color: #333;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            flex: 1; /* Allow the form groups to take equal space */
+        }
+        label {
+            margin-bottom: 5px;
+            display: block;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        textarea {
+            resize: vertical;
+
+        }
+        .submit-btn {
+            background-color: #9e3d32; /* Change color as needed */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+        }
+        .submit-btn:hover {
+            background-color: #9e3b29; /* Darker shade on hover */
+        }
+        .contact-details {
+            margin-top: 20px;
+            font-size: 16px;
+            padding: 20px;
+            background: #e9ecef;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .contact-details h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .contact-details p {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+        .contact-details i {
+            margin-right: 10px;
+            color: #9e3d32; /* Icon color */
+            font-size: 20px; /* Adjust icon size */
+        }
+        .map-container {
+            margin-top: 20px;
+            height: 400px; /* Adjust height as needed */
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        @media (min-width: 768px) {
+            .form-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .form-group {
+                margin-right: 20px; /* Space between form groups */
+            }
+            .form-group:last-child {
+                margin-right: 0;
+            }
+        }
+        @media (max-width: 768px) {
+            .form-group {
+                margin-right: 0; /* No margin on smaller screens */
+            }
+        }
+</style>
+
+
+<div style="padding-top:8%"></div>
+<div class="container">
+
+    <div class="map-container">
+        <!-- Google Maps Embed -->
+       <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3084.557298973289!2d-90.44269268418593!3d41.51184537925338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87d7ea09792c7ea5%3A0xf2d62fa3e0c3b570!2s1357%2018th%20Ave%2C%20East%20Moline%2C%20IL%2061244%2C%20USA!5e0!3m2!1sen!2sus!4v1697994468443!5m2!1sen!2sus"
+    width="100%"
+    height="400"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy">
+</iframe>
+
+
+    </div>
+
+    <h2>Get in Touch</h2>
+<p>Get in touch with Every Day Auto Sales today! Whether you have questions about our inventory, financing options, or service department, we’re here to help.</p>
+<form id="infoForm" action="{% url 'submit_info' %}" method="post">
+    {% csrf_token %}
+  <div class="form-container">
+      <input type="hidden" name="car_link" id="car_link">
+        <div class="form-group">
+            <label for="first-name">First Name*</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="last-name">Last Name*</label>
+            <input type="text" id="name2" name="name2" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email*</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" placeholder="+1 123 456 7890">
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Type your message here..."></textarea>
+        </div>
+    </div>
+
+    <center><button class="submit-btn" type="submit">Send Message</button></center>
+    </form>
+
+    <div class="contact-details">
+        <h2>Contact Details</h2>
+       <p><i class="fas fa-map-marker-alt"></i><strong style="padding-right: 10px">Address: </strong> 1525 Central Ave, Billings, MT 59102</p>
+
+<p><i class="fas fa-phone-alt"></i><strong style="padding-right: 10px">Phone: </strong> (877) 775-8766</p>
+
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('car_link').value = window.location.href;
+
+        document.getElementById('infoForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Create a new FormData object
+            const formData = new FormData(this);
+
+            // Combine first and last name into a single name field
+            const firstName = document.getElementById('name').value;
+            const lastName = document.getElementById('name2').value;
+            const combinedName = firstName + ' ' + lastName; // Combine the names
+
+            // Append the combined name to the FormData object
+            formData.set('name', combinedName);
+
+            // Remove the individual name fields from FormData if needed
+            formData.delete('first-name');
+            formData.delete('last-name');
+
+            // Send the form data using fetch
+            fetch("{% url 'submit_info' %}", {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                window.location.reload(); // Reload the page on successful submission
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
+
+
+
+
+</div>
+
+
+
+{% include 'pages/footer.html' %}

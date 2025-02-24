@@ -1,0 +1,291 @@
+{% load static %}
+{% include 'pages/top.html' %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const header = document.getElementById("header");
+
+    if (header) {
+        const checkScrollPosition = () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const pageHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / pageHeight) * 100;
+
+            if (scrollPercentage <= 2) {
+                // Add black background with !important
+                header.style.setProperty("background-color", "black", "important");
+            } else {
+                // Remove black background
+                header.style.removeProperty("background-color");
+            }
+        };
+
+        // Initial check
+        checkScrollPosition();
+
+        // Listen to scroll events
+        window.addEventListener("scroll", checkScrollPosition);
+    } else {
+        console.warn("Element with id 'header' not found.");
+    }
+});
+
+</script>
+<style>
+    @media (max-width: 768px) {
+    .tfcl-listing-card .featured-property img {
+        height:280px;
+    }
+
+    }
+    @media only screen and (max-width: 767px) {
+    .wrap-tfcl-listing-card.cards-item {
+        width:100%;
+    }
+}
+</style>
+	<!-- Page title -->
+<header class="page-header">
+    <div class="page-title left ">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="inner-breadcrumb">
+                    <div class="breadcrumb-trail breadcrumbs"><div class="trail-items"><span class="trail-item trail-begin"><a href="../index-2.htm" rel="home"><span>Home</span></a></span><span class="sep"><i class="icon-autodeal-angle-right"></i></span><span class="trail-item trail-end"><span><span>Listing Demo</span></span></span></div></div>
+                </div>
+                <div class="inner-heading">
+                    <h1 class="page-title-heading">Listing Demo</h1>                            <div class="social-share-article">
+                        <h6>Share this page:</h6>
+                        <ul class="themesflat-socials">
+                <li class="facebook">
+                                    <a href="http://www.facebook.com/sharer/sharer.php?u=http://autodealwp.demothemesflat.co/listing-demo/" target="_blank" rel="alternate" title="facebook">
+                                        <i class="icon-autodeal-facebook"></i>
+                                    </a>
+                                </li><li class="linkedin">
+                                    <a href="index-10.htm" target="_blank" rel="alternate" title="linkedin">
+                                        <i class="icon-autodeal-linkedin"></i>
+                                    </a>
+                                </li><li class="twitter">
+                                    <a href="http://twitter.com/intent/tweet?url=http://autodealwp.demothemesflat.co/listing-demo/" target="_blank" rel="alternate" title="twitter">
+                                        <i class="icon-autodeal-twitter"></i>
+                                    </a>
+                                </li><li class="instagram">
+                                    <a href="https://www.instagram.com/?url=http://autodealwp.demothemesflat.co/listing-demo/" target="_blank" rel="alternate" title="instagram">
+                                        <i class="icon-autodeal-instagram"></i>
+                                    </a>
+                                </li>            </ul>
+        </div>
+                        </div>
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </div><!-- /.page-title -->
+</header><!-- /.page-header -->
+
+	<div id="main-content" class="site-main clearfix " style="padding-top:80px;">
+		<div id="themesflat-content" class="page-wrap ">		<div data-elementor-type="wp-page" data-elementor-id="2181" class="elementor elementor-2181">
+				<div class="elementor-element elementor-element-7895078 e-flex e-con-boxed e-con e-parent" data-id="7895078" data-element_type="container">
+					<div class="e-con-inner">
+				<div class="elementor-element elementor-element-2362403 elementor-widget elementor-widget-heading" data-id="2362403" data-element_type="widget" data-widget_type="heading.default">
+
+				</div>
+				<div class="elementor-element elementor-element-e3cf077 elementor-widget elementor-widget-text-editor" data-id="e3cf077" data-element_type="widget" data-widget_type="text-editor.default">
+
+				</div>
+				<div class="elementor-element elementor-element-dd63ac3 elementor-widget elementor-widget-text-editor" data-id="dd63ac3" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+
+
+
+
+<div class="tfcl_message"></div>
+<div class="cards-container row has-search-form hide-map has-searchform no-sidebar sidebar-left">
+        <div class="col-md-12 listing-list-wrap">
+        <form method="get" action="/listings/" class="tfcl-my-listing-search">
+            <input type="hidden" name="layout_archive_listing" id="layout_archive_listing" value="grid">
+            <input type="hidden" name="column_layout" id="column_layout" value="4">
+                        <div class="row">
+                <div class="col-md-4">
+                    <h2>Listings</h2>
+
+					                </div>
+
+				<ul class="tf-control-layout col-md-4">
+					</ul>
+
+                <div class="col-md-4 toolbar-search-list">
+                                        <div class="inner">
+
+                    </div>
+
+                    										<div class="wrap-reset-filter">
+                        <span class="btn-clear-filter"><i class="icon-autodeal-close2"></i>
+                            <span>Clear Filters</span></span>
+                    </div>
+                </div>
+            </div>
+                                </form>
+        <div class="group-card-item-listing row">
+            <style>
+                /* Set a fixed size for the entire listing-information section */
+.listing-information.fixed-size {
+  width: 120px; /* Adjust as per your layout */
+  height: 60px; /* Adjust based on the space available */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden; /* Prevent content overflow */
+  padding: 5px; /* Add some inner spacing */
+  box-sizing: border-box;
+}
+
+/* Ensure SVG icons don't stretch */
+.listing-information.fixed-size svg {
+  flex-shrink: 0;
+  margin-bottom: 5px;
+  width: 24px;
+  height: 24px;
+}
+
+/* Adjust text wrapping */
+.listing-information.fixed-size .inner p {
+  font-size: 12px; /* Make font smaller if needed */
+  line-height: 1.4;
+  word-wrap: break-word; /* Prevent text overflow */
+  margin: 0;
+}
+                .tfcl-listing-title.title {
+    white-space: nowrap;     /* Prevent text from wrapping to a new line */
+    overflow: hidden;        /* Hide the overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis (...) to indicate clipped text */
+    display: inline-block;   /* Ensures proper alignment and behavior */
+    max-width: 100%;         /* Adjust based on your layout */
+}
+.transmission-text {
+    white-space: nowrap;     /* Prevent wrapping to a new line */
+    overflow: hidden;        /* Hide any overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis (...) to indicate truncated text */
+    display: block;          /* Ensures the element respects block-level behavior */
+    max-width: 50px;        /* Adjust width based on your layout */
+}
+
+.tfcl-listing-card img {
+    width: 100%;
+    height: 200px; /* Fixed height for the car image */
+    object-fit: cover; /* Ensures the image is cropped without distortion */
+    border-bottom: 1px solid #ddd; /* Optional border between image and content */
+}
+
+
+            </style>
+
+
+          {% for car in cars %}
+<div class="wrap-tfcl-listing-card cards-item col-xl-3 col-md-6 col-6">
+  <div class="tfcl-listing-card">
+    <div
+      class="featured-property tfcl-image-map"
+      title="{{car.mark}} {{car.model}}"
+      data-image="{{car.photo}}"
+      data-id="{{car.id}}"
+      data-location="{{car.location}}"
+      data-featured="{{car.condition}}"
+      data-year="{{car.year}}"
+      data-condition="{{car.body}}"
+      data-mileage="{{car.miles}}"
+      data-fuel="{{car.fuel_type}}"
+      data-trans="{{car.transmission}}"
+      data-price-prefix=""
+      data-price-suffix=""
+      data-price="${{car.price}}"
+    >
+      <div class="group-meta">
+        <div class="inner">
+          <span class="features">{{car.condition}}</span>
+          <span class="count-list-gallery view-gallery" data-gallery="{{car.photos}}">
+            <i class="icon-autodeal-image"></i>{{ car.photos.count|add:1 }}
+          </span>
+        </div>
+        <span class="date-car">{{car.year}}</span>
+      </div>
+
+      <div class="listing-images">
+<a class="view-gallery image-item" href="{% url 'car_detail' car.year car.mark car.model %}">
+          <img decoding="async" src="{{car.photo.url}}" alt="{{car.mark}} {{car.model}}">
+        </a>
+      </div>
+    </div>
+       <div class="card-content content">
+                        <a href="../body/minivan/index-1.htm" class="car-body">{{car.body_type}}</a>
+                        <h3 class="tfcl-listing-title title">
+<a
+  title="{{ car.mark }} {{car.model}}"
+  href="{% url 'car_detail' caryear=car.year carmark=car.mark carmodel=car.model %}"
+>
+  {{ car.mark }} {{car.model}}
+</a>
+            </h3>
+            <ul class="infor-description description">
+                                <li class="listing-information mileages">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 16 16" fill="none"><path d="M7.14604 9.6463L13.146 3.6463C13.1925 3.59985 13.2476 3.563 13.3083 3.53786C13.369 3.51272 13.4341 3.49978 13.4998 3.49978C13.5655 3.49978 13.6305 3.51272 13.6912 3.53786C13.7519 3.563 13.8071 3.59985 13.8535 3.6463C13.9 3.69276 13.9368 3.74791 13.962 3.8086C13.9871 3.8693 14.0001 3.93436 14.0001 4.00005C14.0001 4.06575 13.9871 4.1308 13.962 4.1915C13.9368 4.2522 13.9 4.30735 13.8535 4.3538L7.85354 10.3538C7.80709 10.4003 7.75194 10.4371 7.69124 10.4622C7.63054 10.4874 7.56549 10.5003 7.49979 10.5003C7.43409 10.5003 7.36904 10.4874 7.30834 10.4622C7.24765 10.4371 7.1925 10.4003 7.14604 10.3538C7.09959 10.3073 7.06274 10.2522 7.03759 10.1915C7.01245 10.1308 6.99951 10.0658 6.99951 10.0001C6.99951 9.93436 7.01245 9.8693 7.03759 9.8086C7.06274 9.74791 7.09959 9.69276 7.14604 9.6463ZM7.99979 5.50005C8.43411 5.4995 8.86561 5.5698 9.27729 5.70818C9.3398 5.73034 9.40609 5.73984 9.4723 5.73614C9.53851 5.73243 9.60333 5.7156 9.66297 5.6866C9.72262 5.65761 9.7759 5.61704 9.81971 5.56725C9.86352 5.51747 9.89699 5.45947 9.91818 5.39663C9.93936 5.33378 9.94783 5.26735 9.94309 5.20121C9.93836 5.13506 9.92051 5.07051 9.89059 5.01133C9.86067 4.95215 9.81927 4.89951 9.76881 4.85647C9.71835 4.81344 9.65983 4.78088 9.59667 4.76068C8.79987 4.49206 7.94819 4.42872 7.12043 4.57654C6.29266 4.72435 5.51554 5.07853 4.86096 5.60632C4.20637 6.13412 3.69547 6.81847 3.3755 7.59607C3.05554 8.37368 2.93685 9.21942 3.03042 10.0551C3.04394 10.1773 3.10203 10.2902 3.19357 10.3723C3.28512 10.4544 3.4037 10.4999 3.52667 10.5001C3.54479 10.5001 3.56354 10.5001 3.58229 10.4969C3.71406 10.4823 3.83463 10.416 3.9175 10.3125C4.00036 10.209 4.03873 10.0768 4.02417 9.94505C4.00789 9.79728 3.99976 9.64872 3.99979 9.50005C4.00095 8.43954 4.42275 7.4228 5.17264 6.6729C5.92254 5.92301 6.93928 5.50121 7.99979 5.50005ZM14.2335 6.31255C14.2036 6.25411 14.1624 6.20215 14.1124 6.15962C14.0623 6.1171 14.0044 6.08485 13.9419 6.06471C13.8794 6.04457 13.8135 6.03694 13.7481 6.04225C13.6826 6.04757 13.6189 6.06572 13.5604 6.09568C13.502 6.12564 13.45 6.16681 13.4075 6.21685C13.365 6.26689 13.3327 6.32482 13.3126 6.38732C13.2924 6.44983 13.2848 6.51569 13.2901 6.58114C13.2954 6.6466 13.3136 6.71036 13.3435 6.7688C13.7135 7.49523 13.9319 8.28924 13.9856 9.10265C14.0393 9.91607 13.9272 10.7319 13.656 11.5007L2.33729 11.4963C2.02149 10.5911 1.92666 9.62346 2.06069 8.67414C2.19472 7.72482 2.55373 6.82129 3.1078 6.03887C3.66186 5.25645 4.39493 4.61781 5.2459 4.17618C6.09686 3.73455 7.04106 3.50274 7.99979 3.50005H8.05479C8.98599 3.50591 9.90276 3.73071 10.731 4.1563C10.7896 4.18855 10.8541 4.20872 10.9206 4.2156C10.9872 4.22249 11.0544 4.21596 11.1184 4.19639C11.1823 4.17683 11.2417 4.14463 11.293 4.1017C11.3443 4.05878 11.3865 4.006 11.417 3.94648C11.4475 3.88697 11.4658 3.82194 11.4708 3.75523C11.4757 3.68853 11.4672 3.62151 11.4458 3.55815C11.4244 3.49479 11.3905 3.43636 11.3461 3.38634C11.3017 3.33632 11.2477 3.29571 11.1873 3.26693C9.94039 2.62826 8.53054 2.37842 7.1401 2.54973C5.74966 2.72105 4.44262 3.30563 3.38804 4.22787C2.33346 5.15011 1.57986 6.36756 1.22473 7.72275C0.869602 9.07795 0.929279 10.5085 1.39604 11.8294C1.46499 12.0251 1.59286 12.1947 1.76208 12.3148C1.93129 12.4348 2.13355 12.4996 2.34104 12.5001H13.6579C13.8653 12.5002 14.0676 12.4358 14.2368 12.3159C14.406 12.196 14.5337 12.0264 14.6023 11.8307C14.9176 10.9337 15.0476 9.98211 14.9842 9.03347C14.9208 8.08482 14.6654 7.15893 14.2335 6.31193V6.31255Z" fill="#696665"></path></svg>                    <div class="inner">
+                        <p>{{car.miles}} mi</p>
+                    </div>
+                </li>
+                                                <li class="listing-information fuel">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 16 16" fill="none"><path d="M15.0625 4.35375L13.8538 3.14625C13.7599 3.05243 13.6327 2.99972 13.5 2.99972C13.3673 2.99972 13.2401 3.05243 13.1462 3.14625C13.0524 3.24007 12.9997 3.36732 12.9997 3.5C12.9997 3.63268 13.0524 3.75993 13.1462 3.85375L14.3538 5.0625C14.447 5.15589 14.4996 5.28238 14.5 5.41437V10.5C14.5 10.6326 14.4473 10.7598 14.3536 10.8536C14.2598 10.9473 14.1326 11 14 11C13.8674 11 13.7402 10.9473 13.6464 10.8536C13.5527 10.7598 13.5 10.6326 13.5 10.5V8C13.5 7.60218 13.342 7.22064 13.0607 6.93934C12.7794 6.65804 12.3978 6.5 12 6.5H11V3.5C11 3.10218 10.842 2.72064 10.5607 2.43934C10.2794 2.15804 9.89782 2 9.5 2H4.5C4.10218 2 3.72064 2.15804 3.43934 2.43934C3.15804 2.72064 3 3.10218 3 3.5V13H2C1.86739 13 1.74021 13.0527 1.64645 13.1464C1.55268 13.2402 1.5 13.3674 1.5 13.5C1.5 13.6326 1.55268 13.7598 1.64645 13.8536C1.74021 13.9473 1.86739 14 2 14H12C12.1326 14 12.2598 13.9473 12.3536 13.8536C12.4473 13.7598 12.5 13.6326 12.5 13.5C12.5 13.3674 12.4473 13.2402 12.3536 13.1464C12.2598 13.0527 12.1326 13 12 13H11V7.5H12C12.1326 7.5 12.2598 7.55268 12.3536 7.64645C12.4473 7.74021 12.5 7.86739 12.5 8V10.5C12.5 10.8978 12.658 11.2794 12.9393 11.5607C13.2206 11.842 13.6022 12 14 12C14.3978 12 14.7794 11.842 15.0607 11.5607C15.342 11.2794 15.5 10.8978 15.5 10.5V5.41437C15.5008 5.21745 15.4625 5.02233 15.3874 4.84028C15.3123 4.65824 15.2019 4.49288 15.0625 4.35375ZM4 13V3.5C4 3.36739 4.05268 3.24021 4.14645 3.14645C4.24021 3.05268 4.36739 3 4.5 3H9.5C9.63261 3 9.75979 3.05268 9.85355 3.14645C9.94732 3.24021 10 3.36739 10 3.5V13H4ZM9 7C9 7.13261 8.94732 7.25979 8.85355 7.35355C8.75979 7.44732 8.63261 7.5 8.5 7.5H5.5C5.36739 7.5 5.24021 7.44732 5.14645 7.35355C5.05268 7.25979 5 7.13261 5 7C5 6.86739 5.05268 6.74021 5.14645 6.64645C5.24021 6.55268 5.36739 6.5 5.5 6.5H8.5C8.63261 6.5 8.75979 6.55268 8.85355 6.64645C8.94732 6.74021 9 6.86739 9 7Z" fill="#696665"></path></svg>                    <div class="inner">
+                        <p>{{car.fuel_type}}</p>
+                    </div>
+                </li>
+                                                <li class="listing-information transmission">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 16 16" fill="none"><path d="M14.5 3.99997C14.4998 3.62594 14.3947 3.25947 14.1967 2.94216C13.9987 2.62485 13.7157 2.36942 13.3798 2.20489C13.0439 2.04035 12.6686 1.9733 12.2965 2.01135C11.9245 2.0494 11.5705 2.19103 11.2749 2.42015C10.9792 2.64926 10.7538 2.95669 10.6241 3.30751C10.4944 3.65833 10.4657 4.03849 10.5412 4.40481C10.6167 4.77113 10.7935 5.10894 11.0513 5.37986C11.3092 5.65078 11.6379 5.84396 12 5.93747V6.99997C12 7.13258 11.9473 7.25975 11.8536 7.35352C11.7598 7.44729 11.6326 7.49997 11.5 7.49997H6C5.82963 7.49992 5.66051 7.52909 5.5 7.58622V5.93747C5.97133 5.81577 6.3821 5.52635 6.65531 5.12347C6.92851 4.72058 7.0454 4.23188 6.98406 3.74897C6.92273 3.26606 6.68737 2.8221 6.32212 2.50031C5.95687 2.17851 5.48679 2.00098 5 2.00098C4.51322 2.00098 4.04314 2.17851 3.67789 2.50031C3.31264 2.8221 3.07728 3.26606 3.01595 3.74897C2.95461 4.23188 3.0715 4.72058 3.3447 5.12347C3.61791 5.52635 4.02868 5.81577 4.5 5.93747V10.0625C4.02868 10.1842 3.61791 10.4736 3.3447 10.8765C3.0715 11.2794 2.95461 11.7681 3.01595 12.251C3.07728 12.7339 3.31264 13.1778 3.67789 13.4996C4.04314 13.8214 4.51322 13.999 5 13.999C5.48679 13.999 5.95687 13.8214 6.32212 13.4996C6.68737 13.1778 6.92273 12.7339 6.98406 12.251C7.0454 11.7681 6.92851 11.2794 6.65531 10.8765C6.3821 10.4736 5.97133 10.1842 5.5 10.0625V8.99997C5.5 8.86736 5.55268 8.74018 5.64645 8.64642C5.74022 8.55265 5.8674 8.49997 6 8.49997H11.5C11.8978 8.49997 12.2794 8.34193 12.5607 8.06063C12.842 7.77933 13 7.39779 13 6.99997V5.93747C13.4292 5.826 13.8092 5.57532 14.0807 5.22472C14.3521 4.87411 14.4996 4.44337 14.5 3.99997ZM4 3.99997C4 3.80219 4.05865 3.60885 4.16854 3.4444C4.27842 3.27995 4.4346 3.15178 4.61732 3.07609C4.80005 3.0004 5.00111 2.9806 5.1951 3.01918C5.38908 3.05777 5.56726 3.15301 5.70711 3.29286C5.84696 3.43271 5.9422 3.6109 5.98079 3.80488C6.01938 3.99886 5.99957 4.19993 5.92388 4.38265C5.8482 4.56538 5.72002 4.72156 5.55557 4.83144C5.39113 4.94132 5.19779 4.99997 5 4.99997C4.73479 4.99997 4.48043 4.89461 4.2929 4.70708C4.10536 4.51954 4 4.26519 4 3.99997ZM6 12C6 12.1978 5.94136 12.3911 5.83147 12.5555C5.72159 12.72 5.56541 12.8482 5.38269 12.9238C5.19996 12.9995 4.9989 13.0193 4.80491 12.9808C4.61093 12.9422 4.43275 12.8469 4.2929 12.7071C4.15305 12.5672 4.0578 12.389 4.01922 12.1951C3.98063 12.0011 4.00044 11.8 4.07613 11.6173C4.15181 11.4346 4.27999 11.2784 4.44443 11.1685C4.60888 11.0586 4.80222 11 5 11C5.26522 11 5.51957 11.1053 5.70711 11.2929C5.89465 11.4804 6 11.7348 6 12ZM12.5 4.99997C12.3022 4.99997 12.1089 4.94132 11.9444 4.83144C11.78 4.72156 11.6518 4.56538 11.5761 4.38265C11.5004 4.19993 11.4806 3.99886 11.5192 3.80488C11.5578 3.6109 11.653 3.43271 11.7929 3.29286C11.9328 3.15301 12.1109 3.05777 12.3049 3.01918C12.4989 2.9806 12.7 3.0004 12.8827 3.07609C13.0654 3.15178 13.2216 3.27995 13.3315 3.4444C13.4414 3.60885 13.5 3.80219 13.5 3.99997C13.5 4.26519 13.3946 4.51954 13.2071 4.70708C13.0196 4.89461 12.7652 4.99997 12.5 4.99997Z" fill="#696665"></path></svg>                    <div class="inner">
+                        <p class="transmission-text">{{car.transmission}}</p>
+                    </div>
+                </li>
+                                                                                                                                                                                                                                            </ul>
+
+            <div class="bottom-content">
+               <div class="price" style="padding-top:10px">
+                                                <span class="inner sale_price">
+                                       $ {{car.price}}                                   </span>
+                            </div>
+
+                <div class="button-details">
+<a
+  title="{{ car.title }}"
+  href="{% url 'car_detail' caryear=car.year carmark=car.mark carmodel=car.model %}"
+  class="btn-listing"
+>
+  View Car
+  <i class="icon-autodeal-readmore"></i>
+</a>
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+
+{% endfor %}
+
+        </div>
+        <div class="overlay-filter-tab" style="display: none;">
+            <div class="filter-loader"></div>
+        </div>
+        </div>
+    </div>
+            </div>
+<div class="fixed-map-stopper"></div>						</div>
+				</div>
+					</div>
+				</div>
+				</div>
+
+        </div><!-- #content -->
+    </div><!-- #main-content -->
+
+
+
+
+
+
+
+{% include 'pages/footer.html' %}

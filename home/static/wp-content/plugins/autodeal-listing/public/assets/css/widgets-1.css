@@ -1,0 +1,457 @@
+/*  widget dealer contact */
+.widget_dealer_contact_widget .inner-widget {
+    padding: 30px 30px 30px 30px;
+    border: 1px solid #EDEDED;
+    box-shadow: 0px 8px 20px 0px #0000000D;
+    border-radius: 16px;
+}
+
+.widget-dealer-contact .dealer-avatar {
+    display: flex;
+    align-items: center;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #EDEDED;
+    margin-bottom: 30px;
+}
+
+.widget-dealer-contact .dealer-avatar img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.widget-dealer-contact .dealer-avatar p {
+    font-family: 'Inter';
+    font-size: 12px;
+    font-weight: 600;
+    color: #7ED321;
+    background: rgba(126, 211, 33, 0.1);
+    border-radius: 999px;
+    padding: 4px 9px;
+    display: inline-block;
+    border: 1px solid rgba(126, 211, 33, 0.14);
+}
+
+.widget-dealer-contact .dealer-avatar svg {
+    vertical-align: sub;
+    margin-right: 3px;
+}
+
+.widget-dealer-contact .map-dealer-listing .address-dealer {
+    margin-bottom: 15px;
+    font-family: 'Inter';
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19.6px;
+    color: #696665;
+}
+
+.widget-dealer-contact .map-dealer-listing .address-dealer svg {
+    vertical-align: sub;
+    margin-right: 8px;
+}
+
+.widget-dealer-contact .dealer-avatar h4 {
+    margin-bottom: 10px;
+}
+
+.widget-dealer-contact .wrap-contact-dealder {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 11px;
+}
+
+.widget-dealer-contact .wrap-contact-dealder .dealer-contact-btn {
+    background: var(--theme-primary-color);
+    border-radius: 14px;
+    padding: 14px 15px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    display: block;
+    text-align: center;
+    flex: 1;
+}
+
+.widget-dealer-contact .wrap-contact-dealder .dealer-contact-btn.email {
+    background: #7ED321;
+}
+
+.widget-dealer-contact .wrap-contact-dealder .dealer-contact-btn:hover {
+    background: #24272C !important;
+}
+
+.widget-dealer-contact .wrap-contact-dealder .dealer-contact-btn i {
+    vertical-align: middle;
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+/* listing sidebar */
+
+.widget_listing_sidebar_widget {
+    padding: 30px 30px 30px 30px;
+    border: 1px solid #EDEDED;
+    box-shadow: 0px 8px 20px 0px #0000000D;
+    border-radius: 16px;
+}
+
+.widget_listing_sidebar_widget .listing-count {
+    font-family: 'Inter';
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19.6px;
+    color: #696665;
+    margin-top: -17px;
+    display: block;
+    margin-bottom: 25px;
+}
+
+.widget_listing_sidebar_widget .view-more-button {
+    margin-top: 25px;
+}
+
+.widget_listing_sidebar_widget .view-more-button a {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22.4px;
+    color: var(--theme-primary-color);
+}
+
+.widget_listing_sidebar_widget .view-more-button a:hover {
+    color: #24272C;
+}
+
+.widget_listing_sidebar_widget .view-more-button a i {
+    margin-left: 3px;
+    vertical-align: text-bottom;
+    font-size: 20px;
+}
+
+.tfcl-list-featured-listing .property-item {
+    display: flex;
+}
+
+.tfcl-list-featured-listing .property-item .property-image img {
+    width: 130px;
+    height: 98px;
+    object-fit: cover;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+} 
+
+.tfcl-list-featured-listing .property-item:hover .property-image img {
+    transform: scale(1.05);
+}
+
+.tfcl-list-featured-listing .property-item .property-image a {
+    display: block;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.tfcl-list-featured-listing .property-item .property-image {
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.tfcl-list-featured-listing .property-title {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22.4px;
+    margin-bottom: 9px;
+}
+
+.tfcl-list-featured-listing .price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.tfcl-list-featured-listing .price .inner:nth-child(2) {
+    color: #B6B6B6;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19.6px;
+    text-decoration: line-through;
+}
+
+.tfcl-list-featured-listing .price .inner:nth-child(1) {
+    color: #24272C;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 19.6px;
+}
+
+.tfcl-list-featured-listing .item:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.widget-dealer-location,
+.widget_dealer_contact_widget2 {
+    border: 1px solid #EDEDED;
+    border-radius: 16px;
+    padding: 30px;
+    padding-bottom: 27px;
+}
+
+.widget-dealer-location .widget-title {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30.24px;
+    margin-bottom: 28px !important;
+}
+
+.widget-dealer-location .address-dealer {
+    display: flex;
+    align-content: center;
+    font-family: 'Inter';
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19.6px;
+    color: #696665;
+    gap: 5px;
+    margin-bottom: 16px;
+}
+
+.widget-dealer-location .location-link {
+    border: 1px solid var(--theme-primary-color);
+    padding: 15px 20px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20.16px;
+    background: transparent;
+    width: 100%;
+    text-align: center;
+    display: block;
+    color: var(--theme-primary-color);
+}
+
+.widget-dealer-location .location-link:hover {
+    background: var(--theme-primary-color);
+    color: #fff;
+}
+
+.tfcl-sidebar-dealer ul {
+    margin-bottom: 40px;
+}
+
+/* dealer contact 2 */
+
+.widget_dealer_contact_widget2 h2 {
+font-size: 40px !important;
+font-weight: 600 !important;
+line-height: 48px !important;
+margin-bottom: 11px !important;
+}
+
+.widget_dealer_contact_widget2 .list-authencation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #EDEDED;
+}
+
+.widget_dealer_contact_widget2 .list-authencation li {
+    font-family: 'Inter';
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16.8px;
+    color: #696665;
+}
+
+.widget_dealer_contact_widget2 .list-authencation li i {
+    color: #7ED321;
+    margin-right: 3px;
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+.widget_dealer_contact_widget2 .open-store {
+    margin-bottom: 31px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #EDEDED;
+}
+
+.widget_dealer_contact_widget2 .rating {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19.6px;
+    color: #24272C;    
+}
+
+.widget_dealer_contact_widget2 .rating .overall-rating-detail-star i {
+    color: #B6B6B6;
+    font-size: 14px;
+}
+
+.widget_dealer_contact_widget2 .rating .overall-rating-detail-star span {
+    margin-left: 10px;
+}
+
+.widget_dealer_contact_widget2 .rating {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 29px;
+}
+
+.widget_dealer_contact_widget2 .rating .overall-rating-detail-star i.active {
+    color: var(--theme-primary-color);
+}
+
+.widget_dealer_contact_widget2 .open-store ul li {
+font-family: 'Inter';
+font-size: 14px;
+font-weight: 400;
+line-height: 19.6px;
+color: #24272C;
+}
+
+.widget_dealer_contact_widget2 .open-store ul li .right {
+    font-weight: 500;
+}
+
+.widget_dealer_contact_widget2 .open-store ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10.5px;
+}
+
+.widget_dealer_contact_widget2 .open-store h6 {
+    margin-bottom: 16px;
+}
+
+.widget_dealer_contact_widget2 .form-sc-1,
+.widget_dealer_contact_widget2 .form-sc-2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.widget_dealer_contact_widget2 .form-sc-2.active, .widget_dealer_contact_widget2 .form-sc-1.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.widget_dealer_contact_widget2 .form-sc-1 .overlay-form, .widget_dealer_contact_widget2 .form-sc-2 .overlay-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.6;
+    content: '';
+    cursor: pointer;
+}
+
+.widget_dealer_contact_widget2 .form-sc-1>.inner, .widget_dealer_contact_widget2 .form-sc-2>.inner {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 15px;
+    right: 15px;
+    max-width: 450px;
+    z-index: 9999;
+    margin: 0 auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 16px;
+}
+
+.widget_dealer_contact_widget2 .button-close {
+    font-size: 16px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--theme-primary-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.widget_dealer_contact_widget2 .button-close:hover {
+    background: #24272C;
+    color: #fff;
+}
+
+.widget_dealer_contact_widget2 .button-form-1 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20.16px;
+    color: #fff;
+    width: 100%;
+    display: block;
+    padding: 15px 35px;
+    border-radius: 14px;
+    background: var(--theme-primary-color);
+    text-align: center;
+    margin-bottom: 11px;
+}
+
+.widget_dealer_contact_widget2 .button-form-2 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20.16px;
+    color: #fff;
+    width: 100%;
+    display: block;
+    padding: 15px 35px;
+    border-radius: 14px;
+    background: #7ED321;
+    text-align: center;
+}
+
+.widget_dealer_contact_widget2 .button-form-1:hover,
+.widget_dealer_contact_widget2 .button-form-2:hover {
+    background: #24272C;
+}
+
+.widget_dealer_contact_widget2 .wpcf7-submit:hover {
+    background: #24272C;
+}
+
+@media only screen and (max-width: 767px) {
+    .widget-dealer-contact .wrap-contact-dealder {
+        flex-direction: column;
+    }
+    .widget-dealer-contact .wrap-contact-dealder .dealer-contact-btn {
+        width: 100%;
+    }
+    .widget_dealer_contact_widget2 h2 {
+        font-size: 30px !important;
+    }
+}

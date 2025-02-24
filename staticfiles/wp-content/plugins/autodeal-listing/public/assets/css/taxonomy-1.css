@@ -1,0 +1,109 @@
+.archive .tfcl-advanced-search-wrap {
+    margin-bottom: 30px;
+}
+
+.archive .tfcl-taxonomy-archive-header {
+    display: flex;
+    justify-content: space-between;
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-self: auto;
+    margin-bottom: 30px;
+}
+
+.archive .tfcl-sort-by-options>label {
+    font-weight: 400;
+    color: #818181;
+    font-size: 0.9375rem;
+    padding: 0;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+}
+
+.archive #tfcl-sort-by-options+.nice-select {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border: 1px solid #EDEDED;
+    padding: 9px 17px;
+    border-radius: 10px;
+}
+
+.archive #tfcl-sort-by-options+.nice-select .current {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22.4px;
+    color: #24272C;
+    font-family: 'Outfit';
+}
+
+.archive #tfcl-sort-by-options+.nice-select .current::after {
+    font-weight: 700;
+    font-size: 15px;
+    margin-left: 14px;
+}
+
+.archive .btn-display-listing-grid, .archive .btn-display-listing-list {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid #EDEDED;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #B6B6B6 !important;
+    font-size: 22px;
+}
+
+.archive .btn-display-listing-grid.active,
+ .archive .btn-display-listing-list.active,
+  .archive .btn-display-listing-grid:hover,
+   .archive .btn-display-listing-list:hover {
+    background: var(--theme-primary-color);
+    border-color: var(--theme-primary-color);
+    color: #fff !important;
+}
+
+.archive  .pagination-wrap .tfcl-pagination {
+    justify-content: center !important;
+    gap: 10px;
+}
+
+.archive .wrap-listing {
+    position: relative;
+}
+
+.tfcl-taxonomy-archive-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tfcl-taxonomy-archive-header {
+    align-items: center;
+}
+
+.tfcl-taxonomy-archive-header .tfcl-sort-by-options .nice-select {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.tfcl-taxonomy-archive-header .tfcl-sort-by-options .nice-select .current {
+    color: #0D0E0F;
+    font-family: "DM Sans";
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+@media only screen and (max-width: 767px) {
+    .archive .tfcl-taxonomy-archive-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}

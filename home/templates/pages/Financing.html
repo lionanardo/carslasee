@@ -1,0 +1,361 @@
+{% load static %}
+ {% include 'pages/top.html' %}
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const header = document.getElementById("header");
+
+    if (header) {
+        const checkScrollPosition = () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const pageHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / pageHeight) * 100;
+
+            if (scrollPercentage <= 2) {
+                // Add black background with !important
+                header.style.setProperty("background-color", "black", "important");
+            } else {
+                // Remove black background
+                header.style.removeProperty("background-color");
+            }
+        };
+
+        // Initial check
+        checkScrollPosition();
+
+        // Listen to scroll events
+        window.addEventListener("scroll", checkScrollPosition);
+    } else {
+        console.warn("Element with id 'header' not found.");
+    }
+});
+
+</script>
+ <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .faq {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .faq-item {
+            margin: 10px 0;
+        }
+        .question {
+            cursor: pointer;
+            background: #e7e7e7;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: black; /* Changed to black */
+            transition: background 0.3s ease;
+        }
+        .question:hover {
+            background: #d7d7d7;
+        }
+        .answer {
+            display: none;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 3px solid #9e3d32;
+            margin: 5px 0;
+            color: #555;
+            animation: fadeIn 0.4s ease; /* Add fade in animation */
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        form {
+            margin: 20px 0;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="date"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background: #9e3d32;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background: #9e3b29;
+        }
+    </style>
+<style>
+    /* Container for financing info and FAQ */
+.financing-container {
+  display: flex;
+  justify-content: space-between; /* Distribute items evenly */
+  align-items: flex-start; /* Align items at the top */
+  gap: 20px; /* Add space between elements */
+  background-color: white; /* White background */
+  padding: 20px; /* Add spacing inside the container */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for better appearance */
+  border-radius: 10px; /* Rounded corners */
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+/* Headline Styling */
+.financing-header {
+  flex: 1; /* Takes up equal space as the FAQ section */
+  font-size: 2rem; /* Large font for headline */
+  color: #333; /* Dark text color */
+  margin: 0; /* Removes default margin */
+}
+
+/* FAQ Styling */
+.faq {
+  flex: 2; /* Takes up twice the space compared to the header */
+  background-color: white; /* White background */
+  border-radius: 10px; /* Rounded corners for FAQ */
+  padding: 20px; /* Inner spacing */
+}
+
+.faq-item {
+  margin-bottom: 15px; /* Space between FAQ items */
+}
+
+.question {
+  font-weight: bold; /* Highlight the question */
+  color: #9e5f50; /* Blue for questions */
+  margin-bottom: 5px; /* Add spacing below the question */
+}
+
+.answer {
+  font-size: 0.95rem; /* Slightly smaller font for answers */
+  color: #666; /* Grey color for less emphasis */
+}
+.aaos{
+padding-top:6%;
+}
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+    .aaos{
+    padding-top:18%;
+    }
+  .financing-container {
+    flex-direction: column; /* Stack items vertically */
+    align-items: stretch; /* Stretch items to full width */
+  }
+
+  .financing-header {
+    text-align: center; /* Center-align the headline */
+    margin-bottom: 20px; /* Add spacing below the headline */
+  }
+}
+
+</style>
+<body>
+<div class="aaos"></div>
+<div class="financing-container">
+  <h1 class="financing-header">Financing Information</h1>
+  <div class="faq">
+    <div class="faq-item">
+      <div class="question">What are the financing options available?</div>
+      <div class="answer">We offer various financing options, including personal loans, credit financing, and payment plans tailored to your needs.</div>
+    </div>
+    <div class="faq-item">
+      <div class="question">How do I apply for financing?</div>
+      <div class="answer">You can apply for financing by filling out the application form below or contacting our customer service for assistance.</div>
+    </div>
+    <div class="faq-item">
+      <div class="question">What information do I need to provide?</div>
+      <div class="answer">You will need to provide personal information, employment details, and financial information to complete your application.</div>
+    </div>
+    <div class="faq-item">
+      <div class="question">How long does the financing approval take?</div>
+      <div class="answer">Approval typically takes 1-2 business days, but it may vary based on your application and the information provided.</div>
+    </div>
+  </div>
+</div>
+
+    <form id="financingForm" action="{% url 'submit_fin_form' %}" method="post">
+        {% csrf_token %}
+        <h2>Applicant Information</h2>
+           <label>Car Link:</label>
+        <input type="text" name="car_link1" style="display: none">
+
+        <label>First Name:</label>
+        <input type="text" name="first-name" required>
+
+        <label>Middle Name:</label>
+        <input type="text" name="middle-name">
+
+        <label>Last Name:</label>
+        <input type="text" name="last-name" required>
+
+        <label>Address 1:</label>
+        <input type="text" name="address-1" required>
+
+        <label>Address 2:</label>
+        <input type="text" name="address-2">
+
+        <label>City:</label>
+        <input type="text" name="city" required>
+
+        <label>State:</label>
+        <input type="text" name="state" required>
+
+        <label>Zip:</label>
+        <input type="text" name="zip" required>
+
+        <label>Social Security:</label>
+        <input type="text" name="social-security" required>
+
+        <label>Date of Birth:</label>
+        <input type="date" name="date-of-birth" required>
+
+        <label>Drivers License Number:</label>
+        <input type="text" name="drivers-license-number" required>
+
+        <label>Drivers License State:</label>
+        <input type="text" name="drivers-license-state" required>
+
+        <label>Drivers License Exp:</label>
+        <input type="date" name="drivers-license-exp" required>
+
+        <label>Mobile Phone:</label>
+        <input type="tel" name="mobile-phone" required>
+
+        <label>Home Phone:</label>
+        <input type="tel" name="home-phone">
+
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <label>Years at Residence:</label>
+        <input type="number" name="years" required>
+
+        <label>Months at Residence:</label>
+        <input type="number" name="months" required>
+
+        <label>Residence Type:</label>
+        <input type="text" name="residence-type" required>
+
+        <label>Rent/Mortgage:</label>
+        <input type="text" name="rent-mortgage" required>
+
+        <h2>Applicant Employment Information</h2>
+        <label>Employer:</label>
+        <input type="text" name="employer" required>
+
+        <label>Employer Type:</label>
+        <input type="text" name="employer-type" required>
+
+        <label>Monthly Income:</label>
+        <input type="number" name="monthly-income" required>
+
+        <label>Occupation:</label>
+        <input type="text" name="occupation" required>
+
+        <label>Employer Address 1:</label>
+        <input type="text" name="employer-address-1" required>
+
+        <label>Employer Address 2:</label>
+        <input type="text" name="employer-address-2">
+
+        <label>Employer City:</label>
+        <input type="text" name="employer-city" required>
+
+        <label>Employer State:</label>
+        <input type="text" name="employer-state" required>
+
+        <label>Employer Zip:</label>
+        <input type="text" name="employer-zip" required>
+
+        <label>Work Phone:</label>
+        <input type="tel" name="work-phone" required>
+
+        <label>Years at Employer:</label>
+        <input type="number" name="employer-years" required>
+
+        <label>Months at Employer:</label>
+        <input type="number" name="employer-months" required>
+
+        <input type="submit" value="Submit">
+    </form>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+        // Set the car link to the current URL
+        document.querySelector('input[name="car_link1"]').value = window.location.href;
+
+        // Add submit event listener
+        document.getElementById('financingForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Use fetch to submit the form data
+            fetch("{% url 'submit_fin_form' %}", {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value // Include CSRF token
+                }
+            })
+            .then(response => response.json()) // Change response to JSON if your server returns JSON
+            .then(data => {
+                console.log(data); // Log the response data
+                window.location.reload(); // Reload the page on successful submission
+            })
+            .catch(error => console.error('Error:', error));
+            window.location.reload();
+        });
+    });
+</script>
+    <script>
+        document.querySelectorAll('.question').forEach((question) => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                if (answer.style.display === 'block') {
+                    answer.style.display = 'none';
+                } else {
+                    // Hide other answers before showing the selected one
+                    document.querySelectorAll('.answer').forEach((ans) => {
+                        ans.style.display = 'none';
+                    });
+                    answer.style.display = 'block';
+                }
+            });
+        });
+
+        // Prevent default form submission and add your form handling logic
+    </script>
+
+{% include 'pages/footer.html' %}

@@ -1,0 +1,105 @@
+{% load static %}
+ {% include 'pages/top.html' %}
+
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const header = document.getElementById("header");
+
+    if (header) {
+        const checkScrollPosition = () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const pageHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / pageHeight) * 100;
+
+            if (scrollPercentage <= 2) {
+                // Add black background with !important
+                header.style.setProperty("background-color", "black", "important");
+            } else {
+                // Remove black background
+                header.style.removeProperty("background-color");
+            }
+        };
+
+        // Initial check
+        checkScrollPosition();
+
+        // Listen to scroll events
+        window.addEventListener("scroll", checkScrollPosition);
+    } else {
+        console.warn("Element with id 'header' not found.");
+    }
+});
+
+</script>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .shipping-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .icon {
+            font-size: 36px;
+            color: #9e3d32; /* Change color as needed */
+            margin-right: 10px;
+        }
+        p {
+            line-height: 1.6;
+            color: #555;
+        }
+         .aas{
+         padding-top:10%;
+         }
+          @media (max-width: 768px) {
+            .aas{
+         padding-top:28%;
+         }
+         }
+
+    </style>
+
+
+<div class="container aas" style="padding-bottom:4%">
+     <p>
+        At Every Day Auto Sales, located at <strong>1525 Central Ave, Billings, MT 59102</strong>, we take pride in providing a comprehensive shipping service through our dedicated in-house shipping team. Whether you’re located nearby or across the country, we offer nationwide car shipping to ensure your vehicle arrives safely and on time.
+    </p>
+
+     <h2>Shipping Options</h2>
+
+    <div class="shipping-option">
+        <i class="icon fas fa-truck"></i>
+        <div>
+            <h3>Enclosed Trailers</h3>
+            <p>For the ultimate protection, our enclosed trailers shield your vehicle from weather and road debris, ensuring a secure environment during transport. This option is ideal for luxury, classic, or high-value cars that you want to keep in pristine condition throughout the journey.</p>
+        </div>
+    </div>
+
+    <div class="shipping-option">
+        <i class="icon fas fa-truck-pickup"></i>
+        <div>
+            <h3>Open Trailers</h3>
+            <p>Our open trailer option is a more cost-effective solution for vehicle transport. While the car is exposed to the elements, this reliable and budget-friendly option ensures your car reaches its destination efficiently.</p>
+        </div>
+    </div>
+
+    <p>
+        Our professional team handles every vehicle with care and attention, from loading to delivery. At Every Day Auto Sales, your car is always in trusted hands. Contact us today to learn more about our shipping services and how we can deliver your vehicle right to your doorstep at <strong>1525 Central Ave, Billings, MT 59102</strong>.
+    </p>
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+{% include 'pages/footer.html' %}
