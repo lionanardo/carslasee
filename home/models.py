@@ -12,6 +12,7 @@ def car_photo_upload_to(instance, filename):
 
 
 class Car(models.Model):
+    stock = models.CharField(max_length=100, default='N/A')
     photo = models.ImageField(upload_to=car_photo_upload_to, blank=True, null=True)
     mark = models.CharField(max_length=100, default='Unknown')
     model = models.CharField(max_length=100, default='Unknown')

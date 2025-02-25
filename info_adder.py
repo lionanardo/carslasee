@@ -12,6 +12,11 @@ django.setup()
 from home.models import Car, Photo  # Import your models
 
 
+def generate_stock_number(counter):
+    """Generates a sequential stock number in the format E2539001, E2539002, etc."""
+    return f"E2539{counter:03d}"  # Format: E2539 + 3-digit counter
+
+
 def parse_car_info(file_path):
     """Extracts all details from 'Новый текстовый документ.txt' formatted file."""
     try:
@@ -19,6 +24,7 @@ def parse_car_info(file_path):
             lines = file.readlines()
 
         car_info = {}
+        color_found = False  # Flag to track if color has been found
 
         for line in lines:
             line = line.strip()
@@ -32,15 +38,21 @@ def parse_car_info(file_path):
 
             # Extract chassis (VIN)
             elif "Chassis" in line:
-                car_info['vin'] = line.split(':')[-1].strip()
+                chassis = line.split(':')[-1].strip()
+                car_info['vin'] = chassis
 
             # Extract transmission type
             elif "Transmission" in line:
-                car_info['transmission'] = line.split(':')[-1].strip()
+                transmission_match = re.search(r'Transmission: (.+)', line, re.IGNORECASE)
+                if transmission_match:
+                    car_info['transmission'] = transmission_match.group(1).strip()
 
-            # Extract paint color
-            elif "Paint" in line:
-                car_info['color'] = line.split(':')[-1].strip()
+            # Extract paint color (look for "Repainted" or "Paint")
+            if not color_found and ("Repainted" in line or "Paint" in line):
+                color_match = re.search(r'Repainted (\w+)|Paint: (\w+)', line, re.IGNORECASE)
+                if color_match:
+                    car_info['color'] = color_match.group(1) or color_match.group(2)
+                    color_found = True  # Stop further color extraction
 
             # Extract doors
             elif "Doors" in line:
@@ -100,8 +112,8 @@ def read_description_file(file_path):
         with open(file_path, 'r', encoding='utf-8', errors='replace') as file:
             content = file.read()
 
-        # Extract engine size (e.g., 5.7-liter)
-        engine_size_match = re.search(r'(\d+\.\d+)-liter', content)
+        # Extract engine size (e.g., 1.9-Liter)
+        engine_size_match = re.search(r'(\d+\.\d+)-Liter', content, re.IGNORECASE)
         engine_size = engine_size_match.group(1) if engine_size_match else 'N/A'
 
         return content, engine_size
@@ -110,7 +122,7 @@ def read_description_file(file_path):
         return "", "N/A"
 
 
-def create_car_from_info(car_info, mark, model, year, description, engine_size, main_photo_path=None):
+def create_car_from_info(car_info, mark, model, year, description, engine_size, stock_number, main_photo_path=None):
     """Saves the car info to the Django database and returns the Car instance."""
     try:
         car = Car(
@@ -121,6 +133,7 @@ def create_car_from_info(car_info, mark, model, year, description, engine_size, 
             transmission=car_info.get('transmission', 'Automatic'),
             color=car_info.get('color', 'Unknown'),
             vin=car_info.get('vin', 'Unknown'),
+            stock=stock_number,  # Save the generated stock number
             year=int(year) if year.isdigit() else 2021,
             doors=int(car_info.get('doors', '2')),  # Default to 2 doors
             cylinders=int(car_info.get('cylinders', '4')),
@@ -135,7 +148,7 @@ def create_car_from_info(car_info, mark, model, year, description, engine_size, 
                 print(f"Main photo added: {main_photo_path}")
 
         car.save()
-        print(f"Car saved: {car}")
+        print(f"Car saved: {car} (Stock: {stock_number})")
         return car
     except IntegrityError as e:
         print(f"Error saving car: {e}")
@@ -145,6 +158,8 @@ def create_car_from_info(car_info, mark, model, year, description, engine_size, 
 def main(base_dir):
     """Processes each car directory, extracting and saving details."""
     print(f"Processing directory: {base_dir}")
+    counter = 1  # Initialize counter for stock numbers
+
     for car_folder in os.listdir(base_dir):
         car_folder_path = os.path.join(base_dir, car_folder)
         if os.path.isdir(car_folder_path):
@@ -182,8 +197,12 @@ def main(base_dir):
             # Extract mark, model, year from folder name
             mark, model, year = extract_name_and_year(car_folder)
 
+            # Generate stock number
+            stock_number = generate_stock_number(counter)
+            counter += 1  # Increment counter for the next car
+
             # Save the car to the database with the main photo, description, and engine size
-            car = create_car_from_info(car_info, mark, model, year, description, engine_size, main_photo_path)
+            car = create_car_from_info(car_info, mark, model, year, description, engine_size, stock_number, main_photo_path)
 
             # Save additional photos to the Photo model
             if car and additional_photo_paths:
@@ -195,7 +214,8 @@ def main(base_dir):
 
 
 if __name__ == "__main__":
-    base_directory = 'C:/Users/AVTO/Desktop/papka/cars/cars'  # Update this path to your cars directory
+    base_directory = 'C:/Users/AVTO/Desktop/papka/cars/cars'
     print("Starting process...")
     main(base_directory)
     print("Process completed.")
+
