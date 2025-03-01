@@ -42,7 +42,7 @@ class Car(models.Model):
 
 class Photo(models.Model):
     car = models.ForeignKey(Car, related_name='photos', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=car_photo_upload_to)
+    image = models.ImageField(upload_to=car_photo_upload_to,max_length=500)
 
     # Order field is no longer needed for sorting without SortableMixin
     order = models.PositiveIntegerField(default=0)

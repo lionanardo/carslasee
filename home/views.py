@@ -12,29 +12,32 @@ from django.db.models import Q
 
 
 def index(request):
-    car_model = request.GET.get('car-model')
-    max_price = request.GET.get('max-price')
-    min_year = request.GET.get('min-year')
+    # Fetch all unique car marks
+    car_marks = list(Car.objects.values_list('mark', flat=True).distinct())
 
+    # Fetch all car models, grouped by mark
+    car_models = {}
+    for mark in car_marks:
+        models = list(Car.objects.filter(mark=mark).values_list('model', flat=True).distinct())
+        car_models[mark] = models
+
+    # Get query params for filtering cars (optional)
+    car_mark = request.GET.get('mark')
+    car_model = request.GET.get('model')
+
+    # Filter cars based on search
     cars = Car.objects.all()
-
+    if car_mark:
+        cars = cars.filter(mark=car_mark)
     if car_model:
-        cars = cars.filter(model__icontains=car_model)
-    if max_price:
-        try:
-            cars = cars.filter(price__lte=float(max_price))
-        except ValueError:
-            pass
-    if min_year:
-        try:
-            cars = cars.filter(year__gte=int(min_year))
-        except ValueError:
-            pass
+        cars = cars.filter(model=car_model)
 
-    for car in cars:
-        print(car.photo.url)
+    return render(request, 'pages/index.html', {
+        'cars': cars,
+        'car_marks': car_marks,
+        'car_models': json.dumps(car_models),  # Serialize car_models as a JSON string
+    })
 
-    return render(request, 'pages/index.html', {'cars': cars})
 
 def about_us(request):
     return render(request, 'pages/About_us.html')

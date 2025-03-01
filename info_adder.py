@@ -12,6 +12,13 @@ django.setup()
 from home.models import Car, Photo  # Import your models
 
 
+# List of known car brands
+KNOWN_CAR_BRANDS = [
+    "Chevrolet", "Ford", "Mercedes-Benz", "Pontiac", "Ferrari", "Shelby",
+    "Fiat", "Mercury", "Cadillac", "Maserati", "Porsche"
+]
+
+
 def generate_stock_number(counter):
     """Generates a sequential stock number in the format E2539001, E2539002, etc."""
     return f"E2539{counter:03d}"  # Format: E2539 + 3-digit counter
@@ -92,14 +99,21 @@ def extract_name_and_year(folder_name):
     mark = 'Unknown'
     model = 'Unknown'
 
+    # Find the year in the folder name
     for i, part in enumerate(parts):
         if part.isdigit() and len(part) == 4:
             year = part
-            mark = parts[i + 1] if i + 1 < len(parts) else 'Unknown'
-            model = ' '.join(parts[i + 2:]) if i + 2 < len(parts) else 'Unknown'
             break
 
-    if year == '2021':  # If no year is found, assume it's a modified/custom car
+    # Extract the car mark (brand)
+    for i, part in enumerate(parts):
+        if part in KNOWN_CAR_BRANDS:
+            mark = part
+            # The model is everything after the mark
+            model = ' '.join(parts[i + 1:])
+            break
+    else:
+        # If no known brand is found, assume the first word is the mark
         mark = parts[0]
         model = ' '.join(parts[1:])
 
@@ -214,8 +228,7 @@ def main(base_dir):
 
 
 if __name__ == "__main__":
-    base_directory = 'C:/Users/AVTO/Desktop/papka/cars/cars'
+    base_directory = 'C:/Users/AVTO/Desktop/cars/cars'
     print("Starting process...")
     main(base_directory)
     print("Process completed.")
-
