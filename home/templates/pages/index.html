@@ -78,43 +78,41 @@
 					<div id="tf-search-c66254e" class="tf-search-wrap style1 style1" data-tabid="c66254e">
 			<div class="form-search-wrap">
 				<div class="form-search-inner">
-					<div data-href="/listings/" class="search-listing-form">
+				<div data-href="/listings/" class="search-listing-form">
 
 		<div class="search-form-content">
 					<div class="tfcl-search-form-top desktop">
 						<div class="form-group form-item listing-select-meta-box-wrap">
-				<form action="{% url 'listings' %}" method="GET" class="search-form-content">
-    <div class="tfcl-search-form-top desktop">
-        <div class="form-group form-item listing-select-meta-box-wrap">
-            <label>Make</label>
-            <div class="custom-dropdown" id="car-mark-dropdown">
-                <div class="dropdown-selected" id="dropdown-selected">Select Make</div>
-                <div class="dropdown-options" id="dropdown-options">
-                    <div class="dropdown-option" data-value="">Select Make</div>
-                    {% for mark in car_marks %}
-                        <div class="dropdown-option" data-value="{{ mark }}">{{ mark }}</div>
-                    {% endfor %}
-                </div>
+		<div class="tfcl-search-form-top desktop">
+    <div class="form-group form-item listing-select-meta-box-wrap">
+        <label>Make</label>
+        <div class="custom-dropdown" id="car-mark-dropdown">
+            <div class="dropdown-selected" id="dropdown-selected">Select Make</div>
+            <div class="dropdown-options" id="dropdown-options">
+                <div class="dropdown-option" data-value="">Select Make</div>
+                {% for mark in car_marks %}
+                    <div class="dropdown-option" data-value="{{ mark }}">{{ mark }}</div>
+                {% endfor %}
             </div>
-        </div>
-
-        <div class="form-group form-item listing-select-meta-box-wrap">
-            <label>Model</label>
-            <div class="custom-dropdown" id="car-model-dropdown">
-                <div class="dropdown-selected" id="dropdown-selected-model">Select Model</div>
-                <div class="dropdown-options" id="dropdown-options-model">
-                    <!-- Models will be dynamically injected here -->
-                </div>
-            </div>
-        </div>
-
-        <div class="wrap-search-form-btn">
-            <button type="submit" class="tf-advanced-search-btn">
-                Find cars <i class="icon-autodeal-icon-1"></i>
-            </button>
         </div>
     </div>
-</form>
+
+    <div class="form-group form-item listing-select-meta-box-wrap">
+        <label>Model</label>
+        <div class="custom-dropdown" id="car-model-dropdown">
+            <div class="dropdown-selected" id="dropdown-selected-model">Select Model</div>
+            <div class="dropdown-options" id="dropdown-options-model">
+                <!-- Models will be dynamically injected here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="wrap-search-form-btn">
+        <button id="search-button">
+            Find cars <i class="icon-autodeal-icon-1"></i>
+        </button>
+    </div>
+</div>
 
 <script>
     let carData = {
@@ -123,40 +121,52 @@
     };
 
     document.addEventListener("DOMContentLoaded", function() {
-        let markDropdown = document.getElementById('car-mark-dropdown');
-        let modelDropdown = document.getElementById('car-model-dropdown');
         let dropdownSelectedMark = document.getElementById('dropdown-selected');
         let dropdownOptionsMark = document.getElementById('dropdown-options');
         let dropdownSelectedModel = document.getElementById('dropdown-selected-model');
         let dropdownOptionsModel = document.getElementById('dropdown-options-model');
+        let searchButton = document.getElementById('search-button');
 
-        // Mark dropdown toggle
+        let selectedMake = "";
+        let selectedModel = "";
+
+        // Toggle Mark dropdown
         dropdownSelectedMark.addEventListener('click', function() {
             dropdownOptionsMark.classList.toggle('show');
         });
 
-        // Model dropdown toggle
+        // Toggle Model dropdown
         dropdownSelectedModel.addEventListener('click', function() {
             dropdownOptionsModel.classList.toggle('show');
         });
 
-        // Mark option selection
-        document.querySelectorAll('.dropdown-option').forEach(option => {
-            option.addEventListener('click', function() {
-                dropdownSelectedMark.textContent = option.textContent;
+        // Select Make
+        dropdownOptionsMark.addEventListener('click', function(event) {
+            if (event.target.classList.contains('dropdown-option')) {
+                selectedMake = event.target.getAttribute('data-value');
+                dropdownSelectedMark.textContent = event.target.textContent;
                 dropdownOptionsMark.classList.remove('show');
 
-                let selectedMark = option.getAttribute('data-value');
-                updateModels(selectedMark);
-            });
+                updateModels(selectedMake);
+            }
         });
 
-        // Update models based on selected mark
-        function updateModels(selectedMark) {
-            dropdownSelectedModel.textContent = 'Select Model';  // Reset model dropdown
-            dropdownOptionsModel.innerHTML = '';  // Clear existing models
+        // Select Model
+        dropdownOptionsModel.addEventListener('click', function(event) {
+            if (event.target.classList.contains('dropdown-option')) {
+                selectedModel = event.target.getAttribute('data-value');
+                dropdownSelectedModel.textContent = event.target.textContent;
+                dropdownOptionsModel.classList.remove('show');
+            }
+        });
 
-            let models = carData.models[selectedMark] || [];
+        // Update models when Make is selected
+        function updateModels(selectedMake) {
+            dropdownSelectedModel.textContent = 'Select Model';  // Reset model dropdown
+            dropdownOptionsModel.innerHTML = '';  // Clear previous models
+            selectedModel = '';  // Reset selected model
+
+            let models = carData.models[selectedMake] || [];
             if (models.length === 0) {
                 let noModelOption = document.createElement('div');
                 noModelOption.classList.add('dropdown-option');
@@ -167,17 +177,23 @@
                     let option = document.createElement('div');
                     option.classList.add('dropdown-option');
                     option.textContent = model;
+                    option.setAttribute('data-value', model);
                     dropdownOptionsModel.appendChild(option);
-
-                    option.addEventListener('click', function() {
-                        dropdownSelectedModel.textContent = model;
-                        dropdownOptionsModel.classList.remove('show');
-                    });
                 });
             }
         }
 
-        // Close dropdowns if clicked outside
+        // Handle button click for redirection
+        searchButton.addEventListener('click', function() {
+            let queryParams = new URLSearchParams();
+            if (selectedMake) queryParams.append('make', selectedMake);
+            if (selectedModel) queryParams.append('model', selectedModel);
+
+            let searchUrl = "/listings/?" + queryParams.toString(); // Directly use relative URL
+            window.location.href = searchUrl;
+        });
+
+        // Close dropdowns when clicking outside
         window.addEventListener('click', function(e) {
             if (!e.target.closest('.custom-dropdown')) {
                 dropdownOptionsMark.classList.remove('show');
