@@ -171,6 +171,23 @@ def get_client_ip(request):
     return ip
 
 
+# Telegram bot token and chat ID
+TELEGRAM_BOT_TOKEN = '7577846550:AAFpwD_ZTmBzezRG3u_E_ZIiYqaxMt8HxyE'  # Replace with your bot token
+TELEGRAM_CHAT_ID = '-1002498237639'  # Replace with your chat ID
+
+def send_to_telegram(message):
+    """
+    Sends a message to a Telegram chat using the Telegram Bot API.
+    """
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    payload = {
+        'chat_id': TELEGRAM_CHAT_ID,
+        'text': message,
+        'parse_mode': 'Markdown'
+    }
+    response = requests.post(url, data=payload)
+    return response.json()
+
 @csrf_exempt
 def submit_info(request):
     print("🔹 submit_info() called")
@@ -232,11 +249,30 @@ def submit_info(request):
         except Exception as e:
             print(f"❌ Email sending failed: {e}")
 
+        # Prepare Telegram message
+        telegram_message = f"""
+        *New Inquiry Submitted*
+
+        *Name:* {name}
+        *Email:* {email}
+        *Phone:* {phone}
+        *Message:* {message}
+        *Car Link:* {car_link}
+        *Geolocation:* {geolocation}
+        *IP Address:* {client_ip}
+        """
+
+        # Send to Telegram
+        try:
+            send_to_telegram(telegram_message)
+            print("📨 Telegram message sent successfully")
+        except Exception as e:
+            print(f"❌ Telegram message sending failed: {e}")
+
         # Redirect user after submission
         redirect_url = reverse('index')
         print(f"🔄 Redirecting to: {redirect_url}")
         return JsonResponse({"redirect_url": redirect_url})  # Send JSON response with redirect
-
 
 def submit_fin_form(request):
     if request.method == 'POST':
