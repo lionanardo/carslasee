@@ -409,7 +409,7 @@ display:none;
                 <p><label><input type="checkbox" id="vehica-accept" name="vehica-accept" value="1"><span>I accept the <a href="#">privacy policy</a></span></label></p>
             </div>
             <div class="vehica-2-fields__right">
-                <p><button id="submitButton" class="wpcf7-form-control wpcf7-submit vehica-button vehica-button--icon vehica-button--icon--send" style="width:100%;">Send</button></p>
+                <p><button id="submitButton1" class="wpcf7-form-control wpcf7-submit vehica-button vehica-button--icon vehica-button--icon--send" style="width:100%;">Send</button></p>
             </div>
         </div>
     </div>
@@ -425,10 +425,10 @@ display:none;
             // Create FormData manually
             const formData = new FormData();
             formData.append('car_link1', document.getElementById('car_link1').value);
-            formData.append('name', document.getElementById('name').value);
-            formData.append('email', document.getElementById('email').value);
-            formData.append('phone', document.getElementById('phone').value);
-            formData.append('message', document.getElementById('message').value);
+            formData.append('name', document.getElementById('name1').value);
+            formData.append('email', document.getElementById('email2').value);
+            formData.append('phone', document.getElementById('phone2').value);
+            formData.append('message', document.getElementById('message2').value);
             formData.append('vehica-accept', document.getElementById('vehica-accept').checked ? '1' : '0');
 
             // Send the form data using fetch
@@ -489,14 +489,13 @@ display:none;
             <p><label><input type="checkbox" name="vehica-accept" value="1" aria-invalid="false"><span>I accept the <a href="#">privacy policy</a></span></label></p>
         </div>
         <div class="vehica-2-fields__right">
-            <button id="submitButton1" class="wpcf7-form-control wpcf7-submit vehica-button vehica-button--icon vehica-button--icon--send" style="width:100%;">Send</button>
+            <button id="submitButton" class="wpcf7-form-control wpcf7-submit vehica-button vehica-button--icon vehica-button--icon--send" style="width:100%;">Send</button>
         </div>
     </div>
 </div>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
     // Get CSRF token from the page
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     // Set the car link dynamically
     const carLinkInput = document.createElement('input');
@@ -505,16 +504,17 @@ display:none;
     carLinkInput.value = window.location.href;
     document.body.appendChild(carLinkInput);
 
-    document.getElementById('submitButton').addEventListener('click', function(event) {
+    document.getElementById('submitButton1').addEventListener('click', function(event) {
         event.preventDefault(); // Prevent the default button action
 
         // Collect form data
-        const formData = new FormData();
-        formData.append('name', document.getElementById('name1').value);
-        formData.append('email', document.getElementById('email2').value);
-        formData.append('phone', document.getElementById('phone2').value);
-        formData.append('message', document.getElementById('message2').value);
-        formData.append('car_link', carLinkInput.value);
+        const formData1 = new FormData();
+        formData1.append('name', document.getElementById('name').value);
+        formData1.append('email', document.getElementById('email').value);
+        formData1.append('phone', document.getElementById('phone').value);
+        formData1.append('message', document.getElementById('message').value);
+        formData1.append('car_link', carLinkInput.value);
+        console.log(formData1);
 
         // Check if the acceptance checkbox is checked
         const isAccepted = document.querySelector('input[name="vehica-accept"]').checked;
@@ -524,21 +524,16 @@ display:none;
         }
 
         // Send the form data using fetch with CSRF token in headers
-        fetch("{% url 'submit_info' %}", {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': csrfToken // Add CSRF token to headers
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Handle the response if needed
-            if (data.redirect_url) {
-                window.location.href = data.redirect_url;  // Redirect if response contains the redirect URL
-            }
-        })
-        .catch(error => console.error('Error:', error));
+         fetch("{% url 'submit_info' %}", {
+                method: 'POST',
+                body: formData1,
+            })
+            .then(response => response.text())
+            .then(data => {
+				fbq('track', 'Lead');
+				window.location.href = "/";
+            })
+            .catch(error => console.error('Error:', error));
     });
 });
 

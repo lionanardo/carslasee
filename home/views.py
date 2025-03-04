@@ -13,6 +13,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import ssl
 import smtplib
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 
@@ -169,6 +171,7 @@ def get_client_ip(request):
     return ip
 
 
+@csrf_exempt
 def submit_info(request):
     print("🔹 submit_info() called")
 
