@@ -5,9 +5,14 @@ from django.contrib import admin
 from django.shortcuts import render, get_object_or_404
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.urls import reverse
 from .models import Car
 from django.db.models import Q
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import ssl
+import smtplib
 
 
 
@@ -165,16 +170,25 @@ def get_client_ip(request):
 
 
 def submit_info(request):
+    print("🔹 submit_info() called")
+
     if request.method == 'POST':
+        print("✅ Received a POST request")
+
+        # Get form data
         name = request.POST.get('name')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
         message = request.POST.get('message')
         car_link = request.POST.get('car_link')
         client_ip = get_client_ip(request)
-        geolocation = get_geolocation(client_ip)
+        geolocation = "N/A, N/A"  # Replace with actual geolocation function if needed
 
-        # Send email
+        print(f"📩 Form Data - Name: {name}, Email: {email}, Phone: {phone}, Message: {message}")
+        print(f"🌐 Car Link: {car_link}")
+        print(f"🛰️ IP Address: {client_ip}, Geolocation: {geolocation}")
+
+        # Set email parameters
         email_subject = 'New Inquiry Submitted'
         email_body = f"""
         Name: {name}
@@ -185,16 +199,40 @@ def submit_info(request):
         Geolocation: {geolocation}
         IP Address: {client_ip}
         """
-        send_mail(
-            email_subject,                # subject
-            email_body,                   # message body
-            '',    # from email
-            [''],  # recipient email
-            fail_silently=False,
-        )
 
-        return HttpResponseRedirect(reverse('index'))
-    return render(request, 'pages/index.html')
+        # Create email message
+        msg = MIMEMultipart()
+        msg['From'] = 'sales@everydayautosales7.com'
+        msg['To'] = 'sales@everydayautosales7.com'
+        msg['Subject'] = email_subject
+        msg.attach(MIMEText(email_body, 'plain'))
+
+        # SMTP details (Hostinger example)
+        smtp_host = 'smtp.hostinger.com'  # Correct SMTP server for Hostinger
+        smtp_port = 465  # Port for SSL
+        smtp_user = 'sales@everydayautosales7.com'  # Your email address
+        smtp_password = 'vAJbo6m;P'  # Your email password
+
+        # Create SSL context and disable certificate verification
+        context = ssl.create_default_context()
+        context.check_hostname = False
+        context.verify_mode = ssl.CERT_NONE
+
+        try:
+            # Connect to SMTP server with the updated SSL context
+            with smtplib.SMTP_SSL(smtp_host, smtp_port, context=context) as server:
+                server.login(smtp_user, smtp_password)
+                server.sendmail(msg['From'], msg['To'], msg.as_string())
+                print("📧 Email sent successfully")
+        except smtplib.SMTPAuthenticationError:
+            print("❌ Email sending failed: Authentication Error")
+        except Exception as e:
+            print(f"❌ Email sending failed: {e}")
+
+        # Redirect user after submission
+        redirect_url = reverse('index')
+        print(f"🔄 Redirecting to: {redirect_url}")
+        return JsonResponse({"redirect_url": redirect_url})  # Send JSON response with redirect
 
 
 def submit_fin_form(request):
@@ -293,8 +331,8 @@ def submit_fin_form(request):
         send_mail(
             email_subject,
             email_body,
-            '',  # From email
-            [''],  # To email
+            'sales@everydayautosales7.com',  # From email
+            ['sales@everydayautosales7.com'],  # To email
             fail_silently=False,
         )
 

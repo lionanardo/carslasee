@@ -17,8 +17,7 @@ from static import theme_material_kit
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -31,12 +30,12 @@ if not SECRET_KEY:
 DEBUG = True
 
 # Docker HOST
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*', 'carmexautosalesil.com',
-    'www.carmexautosalesil.com',]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1:8000', '*', 'everydayautosales7.com',
+    'www.everydayautosales7.com',]
 
 # Add here your deployment HOSTS
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost:5085',  'https://carmexautosalesil.com',
-    'https://www.carmexautosalesil.com', ]
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost:5085', 'http://127.0.0.1:8000',  'https://everydayautosales7.com',
+    'https://www.everydayautosales7.com', ]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -176,7 +175,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.hostinger.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'sales@carmexautosalesil.com'
-EMAIL_HOST_PASSWORD = '~X3aZ0>du'
+EMAIL_HOST_USER = 'sales@everydayautosales7.com'
+EMAIL_HOST_PASSWORD = 'vAJbo6m;P'
 
 
