@@ -172,8 +172,8 @@ def get_client_ip(request):
 
 
 # Telegram bot token and chat ID
-TELEGRAM_BOT_TOKEN = '7577846550:AAFpwD_ZTmBzezRG3u_E_ZIiYqaxMt8HxyE'  # Replace with your bot token
-TELEGRAM_CHAT_ID = '-1002498237639'  # Replace with your chat ID
+TELEGRAM_BOT_TOKEN = '            '  # Replace with your bot token
+TELEGRAM_CHAT_ID = '          '  # Replace with your chat ID
 
 def send_to_telegram(message):
     """
