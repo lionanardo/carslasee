@@ -172,10 +172,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.hostinger.com'
-EMAIL_PORT = 587
+EMAIL_HOST = 'isp5.ru.fastfox.pro'
+EMAIL_PORT = 465
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'sales@everydayautosales7.com'
-EMAIL_HOST_PASSWORD = 'vAJbo6m;P'
+EMAIL_HOST_USER = 'sales@everyday-autosales.com'
+EMAIL_HOST_PASSWORD = 'u9Z683dntB7'
 
 

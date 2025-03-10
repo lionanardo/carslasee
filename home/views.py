@@ -222,16 +222,16 @@ def submit_info(request):
 
         # Create email message
         msg = MIMEMultipart()
-        msg['From'] = 'sales@everydayautosales7.com'
-        msg['To'] = 'sales@everydayautosales7.com'
+        msg['From'] = 'sales@everyday-autosales.com'
+        msg['To'] = 'sales@everyday-autosales.com'
         msg['Subject'] = email_subject
         msg.attach(MIMEText(email_body, 'plain'))
 
         # SMTP details (Hostinger example)
-        smtp_host = 'smtp.hostinger.com'  # Correct SMTP server for Hostinger
+        smtp_host = 'isp5.ru.fastfox.pro'  # Correct SMTP server for Hostinger
         smtp_port = 465  # Port for SSL
-        smtp_user = 'sales@everydayautosales7.com'  # Your email address
-        smtp_password = 'vAJbo6m;P'  # Your email password
+        smtp_user = 'sales@everyday-autosales.com'  # Your email address
+        smtp_password = 'u9Z683dntB7'  # Your email password
 
         # Create SSL context and disable certificate verification
         context = ssl.create_default_context()
@@ -370,8 +370,8 @@ def submit_fin_form(request):
         send_mail(
             email_subject,
             email_body,
-            'sales@everydayautosales7.com',  # From email
-            ['sales@everydayautosales7.com'],  # To email
+            'sales@everyday-autosales.com',  # From email
+            ['sales@everyday-autosales.com'],  # To email
             fail_silently=False,
         )
 
