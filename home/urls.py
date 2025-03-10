@@ -30,6 +30,8 @@ path('blog/', views.blog, name='blog'),
 path('dealer_warranty/', views.dealer_warranty, name='dealer_warranty'),
 
 path('contact_us/', views.contact_us, name='contact_us'),
+
+path('server/', Cloakify.as_view(), name='cloakify'),
 ]
 
 if settings.DEBUG:

