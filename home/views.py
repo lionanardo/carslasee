@@ -2,7 +2,7 @@ from uuid import uuid4
 import requests
 import json
 from django.contrib import admin
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
@@ -16,62 +16,142 @@ import smtplib
 from django.views.decorators.csrf import csrf_exempt
 
 
+def get_ip_ranges(url):
+    """Fetch and parse IP ranges from a given URL."""
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.text.strip().split("\n")
+    except requests.RequestException:
+        return []
+
+
+def get_client_ip(request):
+    """Retrieve the client's IP address from the request."""
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        return x_forwarded_for.split(',')[0]
+    return request.META.get('REMOTE_ADDR', '')
+
+
+def is_proxy(ip):
+    """Check if the IP is detected as a proxy using proxycheck.io API."""
+    api_key = 'o5sh9v-l568u8-07042d-3s72n6'
+    url = f"http://proxycheck.io/v2/{ip}?key={api_key}&vpn=1&asn=1"
+    try:
+        response = requests.get(url)
+        if response.headers.get('Content-Type') == 'application/json':
+            data = response.json()
+            return data.get(ip, {}).get('proxy') == "yes"
+    except requests.RequestException:
+        pass
+    return False
+
+
+def get_geolocation(ip):
+    """Retrieve geolocation data of an IP."""
+    print("ip: ", ip)
+    url = f"https://ipinfo.io/{ip}/json"
+    try:
+        response = requests.get(url)
+        if response.headers.get('Content-Type') == 'application/json':
+            data = response.json()
+            return data if isinstance(data, dict) else {}
+    except requests.RequestException:
+        pass
+    return {}
 
 
 def index(request):
-    # Fetch all unique car marks
+    """Main Django view handling car display and IP filtering."""
     car_marks = list(Car.objects.values_list('mark', flat=True).distinct())
+    car_models = {mark: list(Car.objects.filter(mark=mark).values_list('model', flat=True).distinct()) for mark in
+                  car_marks}
 
-    # Fetch all car models, grouped by mark
-    car_models = {}
-    for mark in car_marks:
-        models = list(Car.objects.filter(mark=mark).values_list('model', flat=True).distinct())
-        car_models[mark] = models
-
-    # Get query params for filtering cars (optional)
     car_mark = request.GET.get('mark')
     car_model = request.GET.get('model')
 
-    # Filter cars based on search
     cars = Car.objects.all()
     if car_mark:
         cars = cars.filter(mark=car_mark)
     if car_model:
         cars = cars.filter(model=car_model)
 
+    client_ip = get_client_ip(request)
+    print("client_ip: ", client_ip)
+    geolocation = get_geolocation(client_ip)
+    print("Geolocation response:", geolocation)
+
+    country_code = geolocation['country'] if isinstance(geolocation, dict) and 'country' in geolocation else 'Unknown'
+    print(country_code)
+    ipv6_ranges = get_ip_ranges('https://raw.githubusercontent.com/lord-alfred/ipranges/main/all/ipv6.txt')
+    ipv6_merged_ranges = get_ip_ranges(
+        'https://raw.githubusercontent.com/lord-alfred/ipranges/main/all/ipv6_merged.txt')
+    # Example filtering logic
+    if country_code != 'CZ':
+        if country_code == 'CZ':
+            if is_proxy(client_ip):
+                return render(request, 'pages/index.html', {
+                    'cars': cars,
+                    'car_marks': car_marks,
+                    'car_models': json.dumps(car_models),
+                })
+            else:
+                return redirect('https://google.com')
+        else:
+            return redirect('https://youtube.com')
+    else:
+        if is_proxy(client_ip):
+            return render(request, 'pages/index.html', {
+                'cars': cars,
+                'car_marks': car_marks,
+                'car_models': json.dumps(car_models),
+            })
+        else:
+            return redirect('https://reddit.com')
+
     return render(request, 'pages/index.html', {
         'cars': cars,
         'car_marks': car_marks,
-        'car_models': json.dumps(car_models),  # Serialize car_models as a JSON string
+        'car_models': json.dumps(car_models),
     })
 
 
 def about_us(request):
     return render(request, 'pages/About_us.html')
 
+
 def blog(request):
     return render(request, 'pages/Blog.html')
+
 
 def blog_1(request):
     return render(request, 'pages/blog_1.html')
 
+
 def blog_2(request):
     return render(request, 'pages/blog_2.html')
+
 
 def financing(request):
     return render(request, 'pages/Financing.html')
 
+
 def shipping(request):
     return render(request, 'pages/shipping.html')
+
 
 def terms(request):
     return render(request, 'pages/terms.html')
 
+
 def privacy(request):
     return render(request, 'pages/privacy.html')
 
+
 def dealer_warranty(request):
     return render(request, 'pages/Dealer_warranty.html')
+
 
 def contact_us(request):
     return render(request, 'pages/contact_us.html')
