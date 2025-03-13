@@ -50,15 +50,16 @@ def is_proxy(ip):
 
 def get_geolocation(ip):
     """Retrieve geolocation data of an IP."""
-    print("ip: ", ip)
     url = f"https://ipinfo.io/{ip}/json"
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
         if response.headers.get('Content-Type') == 'application/json':
-            data = response.json()
-            return data if isinstance(data, dict) else {}
-    except requests.RequestException:
-        pass
+            return response.json()
+        else:
+            print("Unexpected response format")
+    except requests.RequestException as e:
+        print("Geolocation API error:", e)
     return {}
 
 
@@ -80,9 +81,10 @@ def index(request):
     client_ip = get_client_ip(request)
     print("client_ip: ", client_ip)
     geolocation = get_geolocation(client_ip)
-    print("Geolocation response:", geolocation)
+    print("Geolocation response:", geolocation)  # Debugging output
+    print("Type of geolocation:", type(geolocation))
 
-    country_code = geolocation['country'] if isinstance(geolocation, dict) and 'country' in geolocation else 'Unknown'
+    country_code = geolocation.get('country', 'Unknown')
     print(country_code)
     ipv6_ranges = get_ip_ranges('https://raw.githubusercontent.com/lord-alfred/ipranges/main/all/ipv6.txt')
     ipv6_merged_ranges = get_ip_ranges(
@@ -302,15 +304,15 @@ def submit_info(request):
 
         # Create email message
         msg = MIMEMultipart()
-        msg['From'] = 'sales@everyday-autosales.com'
-        msg['To'] = 'sales@everyday-autosales.com'
+        msg['From'] = 'sales@everydayauto1.com'
+        msg['To'] = 'sales@everydayauto1.com'
         msg['Subject'] = email_subject
         msg.attach(MIMEText(email_body, 'plain'))
 
         # SMTP details (Hostinger example)
-        smtp_host = 'isp5.ru.fastfox.pro'  # Correct SMTP server for Hostinger
+        smtp_host = 'mail.privateemail.com'  # Correct SMTP server for
         smtp_port = 465  # Port for SSL
-        smtp_user = 'sales@everyday-autosales.com'  # Your email address
+        smtp_user = 'sales@everydayauto1.com'  # Your email address
         smtp_password = 'u9Z683dntB7'  # Your email password
 
         # Create SSL context and disable certificate verification
