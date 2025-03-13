@@ -15,48 +15,35 @@ import ssl
 import smtplib
 from django.views.decorators.csrf import csrf_exempt
 
-
-def get_ip_ranges(url):
-    """Fetch and parse IP ranges from a given URL."""
-    try:
-        response = requests.get(url, timeout=5)
-        response.raise_for_status()
-        return response.text.strip().split("\n")
-    except requests.RequestException:
-        return []
-
+def generate_random_ip():
+    """Generate a random IP address for testing."""
+    return f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
 
 def get_client_ip(request):
     """Retrieve the client's IP address from the request."""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         return x_forwarded_for.split(',')[0]
-    return request.META.get('REMOTE_ADDR', '')
 
-
-def is_proxy(ip):
-    """Check if the IP is detected as a proxy using proxycheck.io API."""
-    api_key = 'o5sh9v-l568u8-07042d-3s72n6'
-    url = f"http://proxycheck.io/v2/{ip}?key={api_key}&vpn=1&asn=1"
-    try:
-        response = requests.get(url, timeout=5)
-        if response.headers.get('Content-Type') == 'application/json':
-            data = response.json()
-            return data.get(ip, {}).get('proxy') == "yes"
-    except requests.RequestException:
-        pass
-    return False
+    remote_addr = request.META.get('REMOTE_ADDR', '')
+    if remote_addr in ('127.0.0.1', '::1'):  # Check if running locally
+        print("Localhost detected. Using a random IP for testing.")
+        return generate_random_ip()  # Return a random IP for local testing
+    return remote_addr
 
 def get_geolocation(ip):
     """Retrieve geolocation data of an IP."""
-    if ip in ('127.0.0.1', '::1'):
-        print("Localhost IP detected. Skipping geolocation lookup.")
-        return {}  # Return an empty dictionary for localhost
-
+    # Mock response for random IPs during local testing
     url = f"https://ipinfo.io/{ip}/json"
+    print(url)
     try:
         response = requests.get(url, timeout=5)
         response.raise_for_status()  # Raise an error for bad status codes
+
+        # Handle plain text responses
+        if response.text.strip() == "Location not found":
+            print("Geolocation API returned: Location not found")
+            return {}  # Return an empty dictionary
 
         # Check if the response is JSON
         if 'application/json' in response.headers.get('Content-Type', ''):
@@ -79,6 +66,19 @@ def get_geolocation(ip):
         print("Geolocation API error:", e)
         return {}  # Return an empty dictionary if the request fails
 
+def is_proxy(ip):
+    """Check if the IP is detected as a proxy using proxycheck.io API."""
+    api_key = 'o5sh9v-l568u8-07042d-3s72n6'
+    url = f"http://proxycheck.io/v2/{ip}?key={api_key}&vpn=1&asn=1"
+    try:
+        response = requests.get(url, timeout=5)
+        if response.headers.get('Content-Type') == 'application/json':
+            data = response.json()
+            return data.get(ip, {}).get('proxy') == "yes"
+    except requests.RequestException:
+        pass
+    return False
+
 def index(request):
     """Main Django view handling car display and IP filtering."""
     car_marks = list(Car.objects.values_list('mark', flat=True).distinct())
@@ -100,37 +100,25 @@ def index(request):
     print("Geolocation response:", geolocation)  # Debugging: Print the geolocation response
     print("Type of geolocation:", type(geolocation))  # Debugging: Print the type of geolocation
 
-    # Ensure geolocation is a dictionary
-    if not isinstance(geolocation, dict):
-        print("Warning: geolocation is not a dictionary. Resetting to empty dictionary.")
-        geolocation = {}
-
-    country_code = geolocation.get('country', 'Unknown')
+    geolocation_string = geolocation
+    parts = [part.strip() for part in geolocation_string.split(',')]
+    country_code = parts[-1]
     print("Country code:", country_code)  # Debugging: Print the country code
 
-    ipv6_ranges = get_ip_ranges('https://raw.githubusercontent.com/lord-alfred/ipranges/main/all/ipv6.txt')
-    ipv6_merged_ranges = get_ip_ranges('https://raw.githubusercontent.com/lord-alfred/ipranges/main/all/ipv6_merged.txt')
-
     # Example filtering logic
-    if country_code != 'SE':
-        if country_code == 'US':
-            if not is_proxy(client_ip):
-                return render(request, 'pages/index.html')
-            else:
-                return redirect('https://google.com')
-        else:
-            return redirect('https://youtube.com')
-    else:
-        if not is_proxy(client_ip):
-            return render(request, 'pages/index.html')
-        else:
-            return redirect('https://reddit.com')
+    allowed_countries = ['DE', 'US']
 
-    return render(request, 'pages/index.html', {
-        'cars': cars,
-        'car_marks': car_marks,
-        'car_models': json.dumps(car_models),
-    })
+    if country_code in allowed_countries:
+        if not is_proxy(client_ip):
+            return render(request, 'pages/index.html', {
+                'cars': cars,
+                'car_marks': car_marks,
+                'car_models': json.dumps(car_models),
+            })
+        else:
+            return redirect('https://youtube.com')  # Redirect if it's a proxy
+    else:
+        return redirect('https://youtube.com')  # Redirect to YouTube for other countries
 
 
 def about_us(request):
