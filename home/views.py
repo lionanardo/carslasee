@@ -112,8 +112,8 @@ def index(request):
     ipv6_merged_ranges = get_ip_ranges('https://raw.githubusercontent.com/lord-alfred/ipranges/main/all/ipv6_merged.txt')
 
     # Example filtering logic
-    if country_code != 'CA':
-        if country_code == 'DE':
+    if country_code != 'SE':
+        if country_code == 'US':
             if not is_proxy(client_ip):
                 return render(request, 'pages/index.html')
             else:
