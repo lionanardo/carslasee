@@ -68,7 +68,7 @@ def get_geolocation(ip):
         else:
             # Handle plain text response (e.g., "Stockholm, Stockholm, SE")
             print("Geolocation API returned non-JSON response:", response.text)
-            parts = response.text.strip().split(', ')
+            parts = response.text.strip().split(", ")
             if len(parts) >= 3:
                 return {'country': parts[2]}  # Extract the 3rd part as the country code
             else:
