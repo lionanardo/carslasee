@@ -49,18 +49,31 @@ def is_proxy(ip):
 
 def get_geolocation(ip):
     """Retrieve geolocation data of an IP."""
+    if ip in ('127.0.0.1', '::1'):
+        print("Localhost IP detected. Skipping geolocation lookup.")
+        return {}  # Return an empty dictionary for localhost
+
     url = f"https://ipinfo.io/{ip}/json"
     try:
         response = requests.get(url, timeout=5)
         response.raise_for_status()  # Raise an error for bad status codes
-        raw_data = response.text
 
-        # Attempt to parse JSON
-        try:
-            return json.loads(raw_data)  # Return parsed JSON as a dictionary
-        except json.JSONDecodeError:
-            print("Geolocation API returned non-JSON response:", raw_data)
-            return {}  # Return an empty dictionary if JSON parsing fails
+        # Check if the response is JSON
+        if 'application/json' in response.headers.get('Content-Type', ''):
+            try:
+                return response.json()  # Return parsed JSON as a dictionary
+            except json.JSONDecodeError:
+                print("Geolocation API returned invalid JSON:", response.text)
+                return {}
+        else:
+            # Handle plain text response (e.g., "Stockholm, Stockholm, SE")
+            print("Geolocation API returned non-JSON response:", response.text)
+            parts = response.text.strip().split(', ')
+            if len(parts) >= 3:
+                return {'country': parts[2]}  # Extract the 3rd part as the country code
+            else:
+                print("Unexpected response format:", response.text)
+                return {}
 
     except requests.RequestException as e:
         print("Geolocation API error:", e)
