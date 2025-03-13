@@ -14,22 +14,10 @@ from email.mime.multipart import MIMEMultipart
 import ssl
 import smtplib
 from django.views.decorators.csrf import csrf_exempt
+from ipaddress import ip_address
+from django.http import HttpRequest
+from ipware import get_client_ip
 
-def generate_random_ip():
-    """Generate a random IP address for testing."""
-    return f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
-
-def get_client_ip(request):
-    """Retrieve the client's IP address from the request."""
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        return x_forwarded_for.split(',')[0]
-
-    remote_addr = request.META.get('REMOTE_ADDR', '')
-    if remote_addr in ('127.0.0.1', '::1'):  # Check if running locally
-        print("Localhost detected. Using a random IP for testing.")
-        return generate_random_ip()  # Return a random IP for local testing
-    return remote_addr
 
 def get_geolocation(ip):
     """Retrieve geolocation data of an IP."""
@@ -79,6 +67,18 @@ def is_proxy(ip):
         pass
     return False
 
+
+def get_ipv4_only(request):
+    from ipaddress import ip_address
+    from ipware import get_client_ip
+
+    client_ip, _ = get_client_ip(request)  # Ignore the second value
+
+    if client_ip and ip_address(client_ip).version == 4:
+        return client_ip
+
+    return None
+
 def index(request):
     """Main Django view handling car display and IP filtering."""
     car_marks = list(Car.objects.values_list('mark', flat=True).distinct())
@@ -93,7 +93,7 @@ def index(request):
     if car_model:
         cars = cars.filter(model=car_model)
 
-    client_ip = get_client_ip(request)
+    client_ip = get_ipv4_only(request)
     print("Client IP:", client_ip)  # Debugging: Print the client IP
 
     geolocation = get_geolocation(client_ip)
@@ -106,7 +106,7 @@ def index(request):
     print("Country code:", country_code)  # Debugging: Print the country code
 
     # Example filtering logic
-    allowed_countries = ['DE', 'US']
+    allowed_countries = ['SE', 'US']
 
     if country_code in allowed_countries:
         if not is_proxy(client_ip):
@@ -119,6 +119,7 @@ def index(request):
             return redirect('https://youtube.com')  # Redirect if it's a proxy
     else:
         return redirect('https://youtube.com')  # Redirect to YouTube for other countries
+
 
 
 def about_us(request):
@@ -242,17 +243,6 @@ def get_geolocation(ip):
         return "Location not found"
     except Exception as e:
         return "Error retrieving location"
-
-def get_client_ip(request):
-    # Check X-Forwarded-For for proxies or use request.META for the IP
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-        print(ip)
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-        print(ip)
-    return ip
 
 
 # Telegram bot token and chat ID
