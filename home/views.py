@@ -19,7 +19,7 @@ from django.views.decorators.csrf import csrf_exempt
 def get_ip_ranges(url):
     """Fetch and parse IP ranges from a given URL."""
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=5)
         response.raise_for_status()
         return response.text.strip().split("\n")
     except requests.RequestException:
@@ -39,7 +39,7 @@ def is_proxy(ip):
     api_key = 'o5sh9v-l568u8-07042d-3s72n6'
     url = f"http://proxycheck.io/v2/{ip}?key={api_key}&vpn=1&asn=1"
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=5)
         if response.headers.get('Content-Type') == 'application/json':
             data = response.json()
             return data.get(ip, {}).get('proxy') == "yes"
@@ -47,27 +47,29 @@ def is_proxy(ip):
         pass
     return False
 
-
 def get_geolocation(ip):
     """Retrieve geolocation data of an IP."""
     url = f"https://ipinfo.io/{ip}/json"
     try:
         response = requests.get(url, timeout=5)
-        response.raise_for_status()
-        if response.headers.get('Content-Type') == 'application/json':
-            return response.json()
-        else:
-            print("Unexpected response format")
+        response.raise_for_status()  # Raise an error for bad status codes
+        raw_data = response.text
+
+        # Attempt to parse JSON
+        try:
+            return json.loads(raw_data)  # Return parsed JSON as a dictionary
+        except json.JSONDecodeError:
+            print("Geolocation API returned non-JSON response:", raw_data)
+            return {}  # Return an empty dictionary if JSON parsing fails
+
     except requests.RequestException as e:
         print("Geolocation API error:", e)
-    return {}
-
+        return {}  # Return an empty dictionary if the request fails
 
 def index(request):
     """Main Django view handling car display and IP filtering."""
     car_marks = list(Car.objects.values_list('mark', flat=True).distinct())
-    car_models = {mark: list(Car.objects.filter(mark=mark).values_list('model', flat=True).distinct()) for mark in
-                  car_marks}
+    car_models = {mark: list(Car.objects.filter(mark=mark).values_list('model', flat=True).distinct()) for mark in car_marks}
 
     car_mark = request.GET.get('mark')
     car_model = request.GET.get('model')
@@ -79,36 +81,35 @@ def index(request):
         cars = cars.filter(model=car_model)
 
     client_ip = get_client_ip(request)
-    print("client_ip: ", client_ip)
+    print("Client IP:", client_ip)  # Debugging: Print the client IP
+
     geolocation = get_geolocation(client_ip)
-    print("Geolocation response:", geolocation)  # Debugging output
-    print("Type of geolocation:", type(geolocation))
+    print("Geolocation response:", geolocation)  # Debugging: Print the geolocation response
+    print("Type of geolocation:", type(geolocation))  # Debugging: Print the type of geolocation
+
+    # Ensure geolocation is a dictionary
+    if not isinstance(geolocation, dict):
+        print("Warning: geolocation is not a dictionary. Resetting to empty dictionary.")
+        geolocation = {}
 
     country_code = geolocation.get('country', 'Unknown')
-    print(country_code)
+    print("Country code:", country_code)  # Debugging: Print the country code
+
     ipv6_ranges = get_ip_ranges('https://raw.githubusercontent.com/lord-alfred/ipranges/main/all/ipv6.txt')
-    ipv6_merged_ranges = get_ip_ranges(
-        'https://raw.githubusercontent.com/lord-alfred/ipranges/main/all/ipv6_merged.txt')
+    ipv6_merged_ranges = get_ip_ranges('https://raw.githubusercontent.com/lord-alfred/ipranges/main/all/ipv6_merged.txt')
+
     # Example filtering logic
-    if country_code != 'CZ':
-        if country_code == 'CZ':
-            if is_proxy(client_ip):
-                return render(request, 'pages/index.html', {
-                    'cars': cars,
-                    'car_marks': car_marks,
-                    'car_models': json.dumps(car_models),
-                })
+    if country_code != 'CA':
+        if country_code == 'DE':
+            if not is_proxy(client_ip):
+                return render(request, 'pages/index.html')
             else:
                 return redirect('https://google.com')
         else:
             return redirect('https://youtube.com')
     else:
-        if is_proxy(client_ip):
-            return render(request, 'pages/index.html', {
-                'cars': cars,
-                'car_marks': car_marks,
-                'car_models': json.dumps(car_models),
-            })
+        if not is_proxy(client_ip):
+            return render(request, 'pages/index.html')
         else:
             return redirect('https://reddit.com')
 
