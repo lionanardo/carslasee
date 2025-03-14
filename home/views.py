@@ -14,18 +14,35 @@ from email.mime.multipart import MIMEMultipart
 import ssl
 import smtplib
 from django.views.decorators.csrf import csrf_exempt
-from ipaddress import ip_address
-from django.http import HttpRequest
-from ipware import get_client_ip
+from geolite2 import geolite2
+import socket
+import struct
+from ip2geotools.databases.noncommercial import DbIpCity
 
+
+def get_ip_location(ip):
+    response = DbIpCity.get(ip, api_key="free")
+    return response.country  # Returns country code (e.g., 'SE')
+
+def generate_random_ip():
+    """Generate a random IP address for testing."""
+    return f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
+
+def get_client_ip(request):
+    """Retrieve the client's IP address from the request."""
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        return x_forwarded_for.split(',')[0]
+
+    remote_addr = request.META.get('REMOTE_ADDR', '')
+    return remote_addr
 
 def get_geolocation(ip):
     """Retrieve geolocation data of an IP."""
     # Mock response for random IPs during local testing
-    url = f"https://ipinfo.io/{ip}/json"
-    print(url)
+    print("heil")
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(f"https://ipinfo.io/{ip}/json", timeout=5)
         response.raise_for_status()  # Raise an error for bad status codes
 
         # Handle plain text responses
@@ -67,18 +84,6 @@ def is_proxy(ip):
         pass
     return False
 
-
-def get_ipv4_only(request):
-    from ipaddress import ip_address
-    from ipware import get_client_ip
-
-    client_ip, _ = get_client_ip(request)  # Ignore the second value
-
-    if client_ip and ip_address(client_ip).version == 4:
-        return client_ip
-
-    return None
-
 def index(request):
     """Main Django view handling car display and IP filtering."""
     car_marks = list(Car.objects.values_list('mark', flat=True).distinct())
@@ -93,20 +98,21 @@ def index(request):
     if car_model:
         cars = cars.filter(model=car_model)
 
-    client_ip = get_ipv4_only(request)
+    client_ip = get_client_ip(request)
     print("Client IP:", client_ip)  # Debugging: Print the client IP
 
+    print("getting geol")
     geolocation = get_geolocation(client_ip)
     print("Geolocation response:", geolocation)  # Debugging: Print the geolocation response
     print("Type of geolocation:", type(geolocation))  # Debugging: Print the type of geolocation
 
     geolocation_string = geolocation
     parts = [part.strip() for part in geolocation_string.split(',')]
-    country_code = parts[-1]
+    country_code = get_ip_location(client_ip)
     print("Country code:", country_code)  # Debugging: Print the country code
 
     # Example filtering logic
-    allowed_countries = ['SE', 'US']
+    allowed_countries = ['BG', 'US']
 
     if country_code in allowed_countries:
         if not is_proxy(client_ip):
