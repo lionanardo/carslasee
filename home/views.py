@@ -112,7 +112,7 @@ def index(request):
     print("Country code:", country_code)  # Debugging: Print the country code
 
     # Example filtering logic
-    allowed_countries = ['BG', 'US']
+    allowed_countries = ['SE', 'US']
 
     if country_code in allowed_countries:
         if not is_proxy(client_ip):
